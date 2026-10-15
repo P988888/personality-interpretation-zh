@@ -1,0 +1,6 @@
+开始下载 Thu Oct 15 19:06:14 CST 2026
+Traceback (most recent call last):
+  File "<string>", line 4, in <module>
+ModuleNotFoundError: No module named 'huggingface_hub'
+=== 下载结束 Thu Oct 15 19:06:14 CST 2026 ===
+0	/data/hf_cache

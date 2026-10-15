@@ -1,0 +1,22 @@
+模型: /data/hf_cache/hub/models--Qwen--Qwen2.5-7B-Instruct/snapshots/a09a35458c702b33eeacc393d103063234e8bc28
+开始冒烟测试 19:46:35
+
+Traceback (most recent call last):
+  File "/data/miniconda/envs/torch/bin/llamafactory-cli", line 6, in <module>
+    sys.exit(main())
+             ^^^^^^
+  File "/data/miniconda/envs/torch/lib/python3.12/site-packages/llamafactory/cli.py", line 24, in main
+    launcher.launch()
+  File "/data/miniconda/envs/torch/lib/python3.12/site-packages/llamafactory/launcher.py", line 155, in launch
+    from .train.tuner import run_exp
+  File "/data/miniconda/envs/torch/lib/python3.12/site-packages/llamafactory/train/tuner.py", line 23, in <module>
+    from ..data import get_template_and_fix_tokenizer
+  File "/data/miniconda/envs/torch/lib/python3.12/site-packages/llamafactory/data/__init__.py", line 23, in <module>
+    from .template import TEMPLATES, Template, get_template_and_fix_tokenizer
+  File "/data/miniconda/envs/torch/lib/python3.12/site-packages/llamafactory/data/template.py", line 25, in <module>
+    from .mm_plugin import get_mm_plugin
+  File "/data/miniconda/envs/torch/lib/python3.12/site-packages/llamafactory/data/mm_plugin.py", line 36, in <module>
+    from transformers.video_utils import make_batched_videos
+ModuleNotFoundError: No module named 'transformers.video_utils'
+
+=== 冒烟测试结束 19:46:42 退出码=0 ===

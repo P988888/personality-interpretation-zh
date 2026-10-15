@@ -1,0 +1,945 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="utf-8">
+<title>人格测评模型 · LoRA 微调训练监控</title>
+<style>
+:root{
+  --bg:#03060d;
+  --panel:rgba(10,22,38,.62);
+  --line:rgba(56,189,248,.16);
+  --line-strong:rgba(56,189,248,.42);
+  --cyan:#22d3ee;
+  --cyan-dim:#0e7490;
+  --teal:#2dd4bf;
+  --green:#34d399;
+  --amber:#fbbf24;
+  --red:#f87171;
+  --violet:#a78bfa;
+  --txt:#cfe9f5;
+  --txt-dim:#6b8ba4;
+  --mono:ui-monospace,"SF Mono",SFMono-Regular,Menlo,Consolas,monospace;
+}
+*{box-sizing:border-box;margin:0;padding:0}
+html,body{height:100%}
+body{
+  background:var(--bg);color:var(--txt);overflow:hidden;
+  font-family:"PingFang SC",-apple-system,"Helvetica Neue","Microsoft YaHei",sans-serif;
+  font-size:13px;-webkit-font-smoothing:antialiased;
+}
+#bgfx{position:fixed;inset:0;z-index:0;opacity:.55}
+.vignette{position:fixed;inset:0;z-index:1;pointer-events:none;
+  background:radial-gradient(ellipse at 50% 45%,transparent 30%,rgba(2,4,10,.75) 100%)}
+
+/* ---------- 布局 ---------- */
+#app{position:relative;z-index:2;height:100vh;display:flex;flex-direction:column;padding:10px 14px 12px;gap:10px}
+header{display:grid;grid-template-columns:1fr auto 1fr;align-items:center;gap:18px;
+  flex:0 0 auto;padding-bottom:8px;border-bottom:1px solid var(--line);position:relative}
+header::after{content:"";position:absolute;left:50%;transform:translateX(-50%);bottom:-1px;
+  width:300px;height:2px;
+  background:linear-gradient(90deg,transparent,var(--cyan),transparent);
+  box-shadow:0 0 14px var(--cyan)}
+.hside{display:flex;align-items:center;gap:13px;min-width:0}
+.hleft{justify-self:start}
+.hright{justify-self:end}
+.hmid{text-align:center;min-width:0}
+.mark{width:26px;height:26px;position:relative;flex:0 0 auto}
+.mark i{position:absolute;inset:0;border:1.5px solid var(--cyan);border-radius:50%;
+  border-right-color:transparent;border-bottom-color:transparent;animation:spin 3.4s linear infinite}
+.mark i:nth-child(2){inset:5px;border-color:var(--teal);border-left-color:transparent;
+  border-top-color:transparent;animation-duration:2.1s;animation-direction:reverse}
+@keyframes spin{to{transform:rotate(360deg)}}
+h1{font-size:17.5px;font-weight:600;letter-spacing:3px;white-space:nowrap;
+  background:linear-gradient(90deg,#7fe3f5,#e8fbff 45%,#4dd0e1);-webkit-background-clip:text;
+  background-clip:text;color:transparent}
+.hsub{font-size:10.5px;letter-spacing:1.5px;color:var(--txt-dim);margin-top:4px;white-space:nowrap}
+.spacer{flex:1}
+.hd{display:flex;align-items:center;gap:9px;font-family:var(--mono);font-size:11.5px;color:var(--txt-dim);white-space:nowrap}
+
+/* 训练显卡徽标：挂在主标题正下方、和标题一起居中。
+   刻意做得克制 —— 边框和底色都是极低透明度的青，字色取标题与副标题之间的中间调，
+   不加发光不加动画，避免在标题下面抢戏。 */
+.gpubadge{display:inline-flex;align-items:baseline;gap:8px;margin-top:7px;
+  padding:3px 12px;border:1px solid rgba(56,189,248,.22);border-radius:3px;
+  background:rgba(56,189,248,.05);white-space:nowrap}
+.gpubadge .bk{font-size:10.5px;letter-spacing:1.8px;color:var(--txt-dim)}
+.gpubadge .bv{font-family:var(--mono);font-size:12.5px;font-weight:600;letter-spacing:.7px;
+  color:#8fd4e6}
+.pill{display:inline-flex;align-items:center;gap:6px;padding:4px 11px;border-radius:20px;
+  border:1px solid var(--line-strong);background:rgba(34,211,238,.07);
+  font-size:11px;letter-spacing:1.1px;color:var(--cyan)}
+.pill .dot{width:6px;height:6px;border-radius:50%;background:var(--green);
+  box-shadow:0 0 9px var(--green);animation:beat 1.5s ease-in-out infinite}
+.pill.done{border-color:rgba(52,211,153,.5);background:rgba(52,211,153,.09);color:var(--green)}
+.pill.done .dot{animation:none}
+.pill.dead{border-color:rgba(248,113,113,.5);background:rgba(248,113,113,.09);color:var(--red)}
+.pill.dead .dot{background:var(--red);box-shadow:0 0 9px var(--red);animation:none}
+@keyframes beat{0%,100%{opacity:1;transform:scale(1)}50%{opacity:.35;transform:scale(.7)}}
+
+#grid{flex:1 1 auto;min-height:0;display:grid;gap:10px;
+  grid-template-columns:300px minmax(0,1fr) 300px;grid-template-rows:minmax(0,1fr) 140px}
+.col{display:flex;flex-direction:column;gap:10px;min-height:0}
+#logpanel{grid-column:1/-1}
+
+/* ---------- 面板 ---------- */
+.panel{position:relative;background:var(--panel);border:1px solid var(--line);
+  border-radius:3px;padding:11px 13px 12px;backdrop-filter:blur(7px);min-height:0;
+  display:flex;flex-direction:column;overflow:hidden}
+.panel::before,.panel::after{content:"";position:absolute;width:11px;height:11px;pointer-events:none}
+.panel::before{top:-1px;left:-1px;border-top:1.6px solid var(--cyan);border-left:1.6px solid var(--cyan)}
+.panel::after{bottom:-1px;right:-1px;border-bottom:1.6px solid var(--cyan);border-right:1.6px solid var(--cyan)}
+.panel.grow{flex:1 1 auto}
+.pt{display:flex;align-items:center;gap:8px;font-size:11.5px;letter-spacing:1.7px;
+  color:#8fd8ea;margin-bottom:9px;flex:0 0 auto;text-transform:uppercase}
+.pt b{width:3px;height:12px;background:var(--cyan);box-shadow:0 0 8px var(--cyan);border-radius:1px;flex:0 0 auto}
+.pt em{margin-left:auto;font-style:normal;font-family:var(--mono);font-size:10px;color:var(--txt-dim);letter-spacing:.6px}
+
+/* ---------- 数值 ---------- */
+.stats{display:grid;grid-template-columns:1fr 1fr;gap:1px;background:var(--line);
+  border:1px solid var(--line);border-radius:2px;overflow:hidden;flex:0 0 auto}
+.st{background:rgba(4,12,24,.72);padding:8px 9px 9px}
+.st .k{font-size:10px;color:var(--txt-dim);letter-spacing:1.1px;margin-bottom:4px;white-space:nowrap}
+.st .v{font-family:var(--mono);font-size:19px;font-weight:600;color:#e6fbff;
+  letter-spacing:-.4px;line-height:1.05;text-shadow:0 0 16px rgba(34,211,238,.45)}
+.st .v .u{font-size:10px;color:var(--txt-dim);margin-left:2px;font-weight:400;text-shadow:none}
+.st.hi .v{color:var(--cyan);text-shadow:0 0 18px rgba(34,211,238,.6)}
+.st.gr .v{color:var(--green);text-shadow:0 0 18px rgba(52,211,153,.5)}
+
+/* ---------- 进度 ---------- */
+.bar{height:7px;background:rgba(34,211,238,.09);border:1px solid var(--line);
+  border-radius:2px;overflow:hidden;position:relative}
+.bar i{display:block;height:100%;width:0;border-radius:2px;position:relative;
+  background:linear-gradient(90deg,var(--cyan-dim),var(--cyan),#a5f3fc);
+  box-shadow:0 0 13px rgba(34,211,238,.75);transition:width .7s cubic-bezier(.4,0,.2,1)}
+.bar i::after{content:"";position:absolute;inset:0;
+  background:linear-gradient(90deg,transparent,rgba(255,255,255,.55),transparent);
+  animation:sweep 2.1s linear infinite}
+@keyframes sweep{from{transform:translateX(-100%)}to{transform:translateX(100%)}}
+.plabels{display:flex;justify-content:space-between;font-family:var(--mono);
+  font-size:10.5px;color:var(--txt-dim);margin-top:6px}
+
+/* ---------- 数据行 ---------- */
+.rows{display:flex;flex-direction:column;gap:7px;flex:0 0 auto}
+.row{display:flex;align-items:center;gap:8px;font-size:11.5px}
+.row .n{color:var(--txt-dim);white-space:nowrap;min-width:62px}
+.row .t{flex:1;height:5px;background:rgba(34,211,238,.08);border-radius:2px;overflow:hidden}
+.row .t i{display:block;height:100%;border-radius:2px;transition:width .7s}
+.row .d{font-family:var(--mono);font-size:11px;color:var(--txt);min-width:46px;text-align:right}
+.kv{display:flex;justify-content:space-between;font-size:11.5px;padding:3.5px 0;
+  border-bottom:1px dashed rgba(56,189,248,.10)}
+.kv:last-child{border-bottom:0}
+.kv span:first-child{color:var(--txt-dim)}
+.kv span:last-child{font-family:var(--mono);color:#d9f4ff}
+
+/* ---------- 球体舞台 ---------- */
+#stage{flex:1 1 auto;min-height:0;position:relative;border:1px solid var(--line);
+  border-radius:3px;background:
+    radial-gradient(ellipse at 50% 50%,rgba(14,116,144,.14),transparent 62%),var(--panel);
+  overflow:hidden;backdrop-filter:blur(7px)}
+#stage::before,#stage::after{content:"";position:absolute;width:13px;height:13px;pointer-events:none;z-index:5}
+#stage::before{top:-1px;left:-1px;border-top:1.6px solid var(--cyan);border-left:1.6px solid var(--cyan)}
+#stage::after{bottom:-1px;right:-1px;border-bottom:1.6px solid var(--cyan);border-right:1.6px solid var(--cyan)}
+#sphere{position:absolute;inset:0;width:100%;height:100%}
+.fl{position:absolute;z-index:4;pointer-events:none;font-family:var(--mono)}
+.fl .flk{font-size:9.5px;letter-spacing:1.3px;color:var(--txt-dim);margin-bottom:2px}
+.fl .flv{font-size:17px;font-weight:600;color:#e8fbff;text-shadow:0 0 15px rgba(34,211,238,.5);line-height:1}
+.fl .flv .u{font-size:9.5px;color:var(--txt-dim);font-weight:400;text-shadow:none;margin-left:2px}
+.fl::before{content:"";position:absolute;left:-9px;top:5px;width:5px;height:5px;
+  border-radius:50%;background:var(--cyan);box-shadow:0 0 8px var(--cyan)}
+.fl.a{top:12%;left:5%}
+.fl.b{top:12%;right:5%;text-align:right}
+.fl.b::before{left:auto;right:-9px}
+.fl.c{bottom:9%;left:5%}
+.fl.d{bottom:9%;right:5%;text-align:right}
+.fl.d::before{left:auto;right:-9px}
+
+/* 球心读数 */
+/* 球心读数：底下是发光光核，文字必须压一层深色描边才读得清 */
+#core{position:absolute;left:50%;top:50%;transform:translate(-50%,-50%);z-index:4;
+  text-align:center;pointer-events:none}
+#core .cl{font-size:9.5px;letter-spacing:2.6px;color:#8fb8cc;margin-bottom:2px;
+  text-shadow:0 0 8px #02060e,0 0 4px #02060e,0 1px 2px #02060e}
+#coreloss{font-family:var(--mono);font-size:42px;font-weight:700;letter-spacing:-1.5px;
+  line-height:1;color:#eafeff;
+  text-shadow:0 0 3px #01040a,0 0 8px #01040a,0 0 18px #01040a,0 0 34px currentColor;
+  transition:color .8s}
+#coresub{font-family:var(--mono);font-size:10.5px;color:#9fc4d6;margin-top:6px;letter-spacing:.5px;
+  text-shadow:0 0 8px #02060e,0 0 4px #02060e}
+
+/* ---------- 图表 ---------- */
+.chartwrap{flex:1 1 auto;min-height:0;position:relative}
+.chartwrap canvas{position:absolute;inset:0;width:100%;height:100%}
+
+/* ---------- 日志 ---------- */
+#log{font-family:var(--mono);font-size:10.5px;line-height:1.6;color:#7fb9cc;
+  overflow-y:auto;overflow-x:hidden;white-space:pre;flex:1 1 auto;min-height:0;
+  scrollbar-width:none}
+#log::-webkit-scrollbar{display:none}
+#log .l{opacity:.82;white-space:pre;overflow:hidden;text-overflow:ellipsis}
+#log .l.bar{opacity:.5;color:#5f93a8}
+#log .l.sum{color:#9fe9fb}
+#log .l:last-child{opacity:1}
+
+/* ---------- 图例 ---------- */
+.legend{display:flex;flex-direction:column;gap:5.5px;font-size:10.5px;color:var(--txt-dim)}
+.legend div{display:flex;align-items:center;gap:7px;line-height:1.35}
+.legend s{width:11px;height:11px;flex:0 0 auto;border-radius:50%;text-decoration:none}
+.err{color:var(--red);font-family:var(--mono);font-size:11px;padding:8px;
+  border:1px dashed rgba(248,113,113,.4);border-radius:2px;background:rgba(248,113,113,.06)}
+@media(max-width:1250px){#grid{grid-template-columns:264px minmax(0,1fr) 264px}}
+</style>
+</head>
+<body>
+<canvas id="bgfx"></canvas>
+<div class="vignette"></div>
+
+<div id="app">
+  <header>
+    <div class="hside hleft">
+      <div class="mark"><i></i><i></i></div>
+      <span class="hd" style="font-size:10px;letter-spacing:.8px">输出 → qwen7b-lora-v1</span>
+    </div>
+
+    <div class="hmid">
+      <h1>Qwen2.5-7B-Instruct LoRA 微调训练监控</h1>
+      <div class="hsub">人格测评模型 · IPIP-NEO-120 + MBTI 数据集 · LoRA r=32 α=64</div>
+      <div class="gpubadge">
+        <span class="bk">训练显卡</span><span class="bv">A100-PCIE-40GB</span>
+      </div>
+    </div>
+
+    <div class="hside hright">
+      <div class="hd"><span id="host">—</span></div>
+      <div class="hd"><span id="clock">--:--:--</span></div>
+      <div id="status" class="pill"><span class="dot"></span><span id="statustext">连接中</span></div>
+    </div>
+  </header>
+
+  <div id="grid">
+    <!-- ================= 左栏 ================= -->
+    <div class="col">
+      <div class="panel">
+        <div class="pt"><b></b>训练进度<em id="epochtag">—</em></div>
+        <div class="bar"><i id="pbar"></i></div>
+        <div class="plabels"><span id="pside">step — / —</span><span id="ppct">—%</span></div>
+      </div>
+
+      <div class="panel">
+        <div class="pt"><b></b>核心指标<em>实时</em></div>
+        <div class="stats">
+          <div class="st hi"><div class="k">当前 LOSS</div><div class="v" id="s_loss">—</div></div>
+          <div class="st gr"><div class="k">EVAL LOSS</div><div class="v" id="s_eval">—</div></div>
+          <div class="st"><div class="k">GRAD NORM</div><div class="v" id="s_gn">—</div></div>
+          <div class="st"><div class="k">学习率</div><div class="v" id="s_lr">—</div></div>
+        </div>
+      </div>
+
+      <div class="panel grow">
+        <div class="pt"><b></b>训练概况<em>1,579 条</em></div>
+        <div class="rows">
+          <div class="row"><span class="n">Big Five</span><span class="t"><i style="width:100%;background:linear-gradient(90deg,#0e7490,#22d3ee)"></i></span><span class="d">1399</span></div>
+          <div class="row"><span class="n">MBTI</span><span class="t"><i style="width:12.9%;background:linear-gradient(90deg,#7c3aed,#a78bfa)"></i></span><span class="d">180</span></div>
+          <div class="row"><span class="n">训练/验证</span><span class="t"><i style="width:90%;background:linear-gradient(90deg,#0f766e,#2dd4bf)"></i></span><span class="d">1421/158</span></div>
+        </div>
+        <div style="height:10px"></div>
+        <div class="kv"><span>起始 loss</span><span id="kv_lo0">—</span></div>
+        <div class="kv"><span>当前 loss</span><span id="kv_lon">—</span></div>
+        <div class="kv"><span>已下降</span><span id="kv_drop">—</span></div>
+        <div style="height:8px"></div>
+        <div class="kv"><span>可用参数</span><span>80.7 M</span></div>
+        <div class="kv"><span>LoRA rank / alpha</span><span>32 / 64</span></div>
+        <div class="kv"><span>cutoff_len</span><span>4096</span></div>
+        <div class="kv"><span>有效 batch</span><span>16</span></div>
+        <div class="kv"><span>总步数</span><span id="kv_total">—</span></div>
+      </div>
+    </div>
+
+    <!-- ================= 中栏：球 ================= -->
+    <div class="col">
+      <div id="stage">
+        <canvas id="sphere"></canvas>
+        <div id="core">
+          <div class="cl">CURRENT LOSS</div>
+          <div id="coreloss">—</div>
+          <div id="coresub">等待数据</div>
+        </div>
+        <div class="fl a"><div class="flk">已完成步数</div><div class="flv" id="f_step">—</div></div>
+        <div class="fl b"><div class="flk">剩余时间</div><div class="flv" id="f_eta">—</div></div>
+        <div class="fl c"><div class="flk">已用时间</div><div class="flv" id="f_elapsed">—</div></div>
+        <div class="fl d"><div class="flk">收敛趋势</div><div class="flv" id="f_trend">—</div></div>
+      </div>
+
+      <div class="panel" style="flex:0 0 152px">
+        <div class="pt"><b></b>Loss 收敛曲线<em id="losstag">—</em></div>
+        <div class="chartwrap"><canvas id="c_loss"></canvas></div>
+      </div>
+    </div>
+
+    <!-- ================= 右栏 ================= -->
+    <div class="col">
+      <div class="panel" style="flex:0 0 118px">
+        <div class="pt"><b></b>GPU 状态<em id="gpuname">A100-PCIE-40GB</em></div>
+        <div class="rows">
+          <div class="row"><span class="n">利用率</span><span class="t"><i id="g_util" style="width:0;background:linear-gradient(90deg,#0f766e,#2dd4bf)"></i></span><span class="d" id="g_utilt">—</span></div>
+          <div class="row"><span class="n">显存</span><span class="t"><i id="g_mem" style="width:0;background:linear-gradient(90deg,#0e7490,#22d3ee)"></i></span><span class="d" id="g_memt">—</span></div>
+        </div>
+        <div style="height:8px"></div>
+        <div class="kv"><span>温度 / 功耗</span><span id="g_tp">—</span></div>
+        <div class="kv"><span>跑速</span><span id="g_speed">—</span></div>
+      </div>
+
+      <div class="panel" style="flex:1 1 0">
+        <div class="pt"><b></b>学习率调度<em>cosine + warmup · ×1e-5</em></div>
+        <div class="chartwrap"><canvas id="c_lr"></canvas></div>
+      </div>
+
+      <div class="panel" style="flex:1 1 0">
+        <div class="pt"><b></b>梯度范数<em>grad_norm</em></div>
+        <div class="chartwrap"><canvas id="c_gn"></canvas></div>
+      </div>
+
+      <div class="panel" style="flex:0 0 auto">
+        <div class="pt"><b></b>球体读数对照<em>the sphere</em></div>
+        <div class="legend">
+          <div><s style="background:#2dd4bf;box-shadow:0 0 8px #2dd4bf"></s>光核颜色 = 当前 loss（越亮越收敛）</div>
+          <div><s style="background:#22d3ee;box-shadow:0 0 8px #22d3ee"></s>光核脉动 = loss 下降速率，越快越急</div>
+          <div><s style="background:#f59e0b;box-shadow:0 0 8px #f59e0b"></s>赤道环填充 = 训练完成度，刻度 = 3 个 epoch</div>
+          <div><s style="background:#a78bfa;box-shadow:0 0 8px #a78bfa"></s>外圈螺旋 = loss 轨迹，向内收 = 收敛</div>
+          <div><s style="background:#e2f9ff;box-shadow:0 0 8px #e2f9ff"></s>内流粒子 = 正在消费的样本，转速 ∝ 吞吐</div>
+        </div>
+      </div>
+    </div>
+
+    <!-- ================= 底部日志 ================= -->
+    <div class="panel" id="logpanel">
+      <div class="pt" style="margin-bottom:6px"><b></b>训练日志流<em>fulltrain.log · tail</em></div>
+      <div id="log"></div>
+    </div>
+  </div>
+</div>
+
+<script>
+"use strict";
+const $ = s => document.getElementById(s);
+const clamp = (v,a,b)=>Math.max(a,Math.min(b,v));
+const lerp = (a,b,t)=>a+(b-a)*t;
+
+/* 数字滚动，避免每次刷新数值硬跳 */
+const shown = {};
+function ease(id, target, digits=4, mult=1){
+  const el = $(id);
+  if(!isFinite(target)){ el.textContent='—'; return; }
+  const tgt = target*mult;
+  if(shown[id]===undefined||shown[id]===null) shown[id]=tgt;
+  shown[id] = lerp(shown[id], tgt, 0.16);
+  if(Math.abs(shown[id]-tgt) < Math.abs(tgt||1)*0.0008) shown[id]=tgt;
+  el.textContent = Number(shown[id]).toFixed(digits);
+}
+
+function fmtTime(s){
+  if(s==null||!isFinite(s)) return '—';
+  s=Math.max(0,Math.round(s));
+  const h=Math.floor(s/3600), m=Math.floor(s%3600/60);
+  return h? `${h}h${String(m).padStart(2,'0')}m` : `${m}m${String(s%60).padStart(2,'0')}s`;
+}
+function fmtStep(s){
+  if(s==null||!isFinite(s)) return '—';
+  return s.toFixed(1);
+}
+
+/* ================= 雨点背景 ================= */
+(function(){
+  const c=$('bgfx'), x=c.getContext('2d'); let W,H,cols,ys;
+  function init(){
+    W=c.width=innerWidth; H=c.height=innerHeight;
+    cols=Math.floor(W/16); ys=new Array(cols).fill(0).map(()=>Math.random()*H);
+  }
+  addEventListener('resize',init); init();
+  const glyph='01';
+  (function tick(){
+    x.fillStyle='rgba(3,6,13,.16)'; x.fillRect(0,0,W,H);
+    x.font='11px ui-monospace,monospace';
+    for(let i=0;i<cols;i++){
+      x.fillStyle = Math.random()>.93 ? 'rgba(34,211,238,.30)' : 'rgba(34,211,238,.055)';
+      x.fillText(glyph[(Math.random()*2)|0], i*16, ys[i]);
+      ys[i] = ys[i]>H+20 ? -20 : ys[i]+13;
+    }
+    setTimeout(()=>requestAnimationFrame(tick), 62);
+  })();
+})();
+
+/* ================= 球体 ================= */
+const SP = {
+  rotY:0, rotSpeed:0.00035, tilt:-0.42,
+  loss:null, grad:null, pct:0, epoch:0, epochs:3,
+  evalSteps:[], total:null,
+  particles:[], spiral:[], pulse:0, spin:0.028
+};
+
+/* loss -> 颜色。纵向是 lossK：0 = loss 高（起步/发散），1 = loss 低（收敛好）。
+   所以色带必须「越收敛越亮越冷」，像恒星被点燃 —— 起点暗红，收敛后白热青。 */
+const RAMP=[
+  [0.00,[150,52,26]],    // loss 高：暗红
+  [0.30,[245,158,11]],   // 琥珀
+  [0.55,[59,130,246]],   // 中性蓝
+  [0.78,[34,211,238]],   // 青
+  [1.00,[216,255,248]],  // 白热（收敛很好）
+];
+function lossColor(k, alpha){
+  k=clamp(k,0,1);
+  for(let i=0;i<RAMP.length-1;i++){
+    const [p0,c0]=RAMP[i], [p1,c1]=RAMP[i+1];
+    if(k<=p1){
+      const t=(k-p0)/(p1-p0||1);
+      const r=Math.round(lerp(c0[0],c1[0],t)),g=Math.round(lerp(c0[1],c1[1],t)),b=Math.round(lerp(c0[2],c1[2],t));
+      return alpha==null? `rgb(${r},${g},${b})` : `rgba(${r},${g},${b},${alpha})`;
+    }
+  }
+  const c=RAMP[RAMP.length-1][1];
+  return alpha==null? `rgb(${c[0]},${c[1]},${c[2]})` : `rgba(${c[0]},${c[1]},${c[2]},${alpha})`;
+}
+/* loss 归一化：2.8(起步) -> 0 ; 1.2(收敛) -> 1 */
+const LO_BAD=2.8, LO_GOOD=1.2;
+function lossK(v){ if(v==null) return 0.15; return clamp((LO_BAD-v)/(LO_BAD-LO_GOOD),0,1); }
+function conv(v){ return lossK(v); }   // 0=刚起步 1=收敛得很好
+
+const sph=$('sphere'), sctx=sph.getContext('2d');
+function resizeSphere(){
+  const r=sph.getBoundingClientRect(), dpr=Math.min(devicePixelRatio||1,2);
+  sph.width=Math.max(1,r.width*dpr); sph.height=Math.max(1,r.height*dpr);
+  sctx.setTransform(dpr,0,0,dpr,0,0);
+  SP.W=r.width; SP.H=r.height; SP.cx=r.width/2; SP.cy=r.height/2;
+  // 螺旋最外圈到 1.88R，留出余量，保证宽扁和窄高两种窗口都不溢出
+  SP.R=Math.min(r.width*0.255, r.height*0.395);
+}
+new ResizeObserver(resizeSphere).observe(sph);
+
+function proj(x,y,z,ry){
+  const c=Math.cos(ry), s=Math.sin(ry);
+  let X=x*c-z*s, Z=x*s+z*c;
+  const ct=Math.cos(SP.tilt), st=Math.sin(SP.tilt);
+  const Y=y*ct-Z*st; Z=y*st+Z*ct;
+  const p=1/(1-Z*0.32);
+  return [SP.cx+X*SP.R*p, SP.cy+Y*SP.R*p, Z, p];
+}
+/* 与 proj 同一套倾斜，但不随球体自转 —— 数据轨迹不该跟着转，否则没法读 */
+function projF(x,y,z){
+  const ct=Math.cos(SP.tilt), st=Math.sin(SP.tilt);
+  const Y=y*ct-z*st, Z=y*st+z*ct;
+  const p=1/(1-Z*0.32);
+  return [SP.cx+x*SP.R*p, SP.cy+Y*SP.R*p, Z, p];
+}
+/* 螺旋半径映射：loss 高 -> 外圈，loss 低 -> 内圈（向内收 = 收敛）。
+   整条螺旋安排在进度环之外，三段同心：球(1.0) → 进度环(1.12) → loss 螺旋(1.22~1.88) */
+function spiralR(t){ return 1.22 + 0.66*t; }
+
+/* 把稀疏的点（每 10 步才一个）插值成平滑曲线，否则看起来像随手画的折线 */
+function smoothPath(ctx, P, tension){
+  tension = tension==null? 1.0 : tension;
+  if(P.length<3){ ctx.moveTo(P[0][0],P[0][1]); for(let i=1;i<P.length;i++) ctx.lineTo(P[i][0],P[i][1]); return; }
+  ctx.moveTo(P[0][0],P[0][1]);
+  for(let i=0;i<P.length-1;i++){
+    const p0=P[i-1]||P[i], p1=P[i], p2=P[i+1], p3=P[i+2]||P[i+1];
+    ctx.bezierCurveTo(
+      p1[0]+(p2[0]-p0[0])/6*tension, p1[1]+(p2[1]-p0[1])/6*tension,
+      p2[0]-(p3[0]-p1[0])/6*tension, p2[1]-(p3[1]-p1[1])/6*tension,
+      p2[0], p2[1]);
+  }
+}
+
+/* 把一圈点按前后(z 符号)切成若干段，每段一次描边 —— 比逐段描边快几十倍 */
+function strokeRuns(pts, base, colorFn){
+  let run=[], sign=null;
+  const flush=()=>{
+    if(run.length>1){
+      sctx.beginPath();
+      run.forEach((p,i)=> i? sctx.lineTo(p[0],p[1]) : sctx.moveTo(p[0],p[1]));
+      const zAvg = run.reduce((a,p)=>a+p[2],0)/run.length;
+      sctx.strokeStyle = colorFn(zAvg);
+      sctx.lineWidth = base*(1+zAvg*0.55);
+      sctx.stroke();
+    }
+    run=[];
+  };
+  for(const p of pts){
+    const s = p[2]>=0 ? 1 : -1;
+    if(sign===null) sign=s;
+    if(s!==sign){ flush(); sign=s; }
+    run.push(p);
+  }
+  flush();
+}
+
+function drawSphere(){
+  if(!SP.W) return;
+  const {cx,cy,R}=SP;
+  sctx.clearRect(0,0,SP.W,SP.H);
+  const ry=SP.rotY;
+  const k=lossK(SP.loss), w=k;
+
+  /* --- 1. 外圈螺旋：loss 轨迹极坐标图（半径=loss，角度=进度）--- */
+  if(SP.spiral.length>1){
+    sctx.lineJoin='round'; sctx.lineCap='round';
+    const rIn=spiralR(0), rOut=spiralR(1);
+    const P=SP.spiral.map(d=>{
+      const r=spiralR(d.t);
+      return projF(Math.cos(d.a)*r, 0, Math.sin(d.a)*r);
+    });
+
+    // 内 / 外两条参考虚线，标明"低 loss / 高 loss"的刻度
+    sctx.setLineDash([2,5]);
+    [rIn,rOut].forEach(r=>{
+      sctx.beginPath();
+      const pts=[];
+      for(let i=0;i<=90;i++){
+        const a=i/90*Math.PI*2;
+        pts.push(projF(Math.cos(a)*r,0,Math.sin(a)*r));
+      }
+      pts.forEach((p,i)=> i? sctx.lineTo(p[0],p[1]) : sctx.moveTo(p[0],p[1]));
+      sctx.strokeStyle='rgba(167,139,250,.13)'; sctx.lineWidth=1; sctx.stroke();
+    });
+    sctx.setLineDash([]);
+
+    sctx.beginPath(); smoothPath(sctx, P, 1.0);
+    sctx.strokeStyle='rgba(167,139,250,.26)'; sctx.lineWidth=1.3; sctx.stroke();
+
+    sctx.save();
+    sctx.shadowBlur=10; sctx.shadowColor='rgba(167,139,250,.85)';
+    sctx.strokeStyle='rgba(196,181,253,.80)'; sctx.lineWidth=1.9; sctx.stroke();
+    sctx.restore();
+
+    const lp=P[P.length-1];
+    sctx.beginPath(); sctx.arc(lp[0],lp[1],3.4,0,7);
+    sctx.fillStyle='#ddd6fe'; sctx.shadowBlur=15; sctx.shadowColor='#a78bfa';
+    sctx.fill(); sctx.shadowBlur=0;
+  }
+
+  /* --- 2. 网格球 --- */
+  sctx.save();
+  const gridCol = z => `rgba(56,189,248,${(0.10+0.42*(z*0.5+0.5)).toFixed(3)})`;
+  const N=64;
+  for(let li=-2;li<=2;li++){                       // 纬线
+    const lat=li*Math.PI/7, yy=Math.sin(lat), rr=Math.cos(lat), pts=[];
+    for(let i=0;i<=N;i++){ const a=i/N*2*Math.PI; pts.push(proj(Math.cos(a)*rr, yy, Math.sin(a)*rr, ry)); }
+    strokeRuns(pts, 1.0, gridCol);
+  }
+  for(let mi=0;mi<6;mi++){                          // 经线
+    const lon=mi*Math.PI/6, pts=[];
+    for(let i=0;i<=N;i++){
+      const a=i/N*2*Math.PI;
+      pts.push(proj(Math.cos(a)*Math.cos(lon), Math.sin(a), Math.cos(a)*Math.sin(lon), ry));
+    }
+    strokeRuns(pts, 1.0, z => `rgba(45,212,191,${(0.08+0.36*(z*0.5+0.5)).toFixed(3)})`);
+  }
+  sctx.restore();
+
+  /* --- 3. 赤道进度环 --- */
+  const segs=180, done=Math.round(segs*clamp(SP.pct/100,0,1));
+  for(let i=0;i<segs;i++){
+    const a0=-Math.PI/2 + i/segs*2*Math.PI;
+    const a1=-Math.PI/2 + (i+1)/segs*2*Math.PI;
+    const P=[proj(Math.cos(a0)*1.08,0,Math.sin(a0)*1.08,ry), proj(Math.cos(a1)*1.08,0,Math.sin(a1)*1.08,ry)];
+    const on = i<done;
+    sctx.beginPath(); sctx.moveTo(P[0][0],P[0][1]); sctx.lineTo(P[1][0],P[1][1]);
+    const zc=(P[0][2]+P[1][2])/2;
+    if(on){
+      sctx.strokeStyle=`rgba(34,211,238,${0.42+0.5*(zc*0.5+0.5)})`;
+      sctx.lineWidth=3.1; sctx.shadowBlur=11; sctx.shadowColor='rgba(34,211,238,.85)';
+    }else{
+      sctx.strokeStyle=`rgba(56,189,248,${0.07+0.10*(zc*0.5+0.5)})`;
+      sctx.lineWidth=2.0; sctx.shadowBlur=0;
+    }
+    sctx.stroke();
+  }
+  sctx.shadowBlur=0;
+
+  /* epoch 刻度 */
+  for(let e=1;e<=SP.epochs;e++){
+    const a=-Math.PI/2 + (e/SP.epochs)*2*Math.PI;
+    const q=proj(Math.cos(a)*1.08,0,Math.sin(a)*1.08,ry);
+    const passed = SP.pct/100 >= e/SP.epochs;
+    sctx.beginPath(); sctx.arc(q[0],q[1],3.4,0,7);
+    sctx.fillStyle = passed? '#a5f3fc' : 'rgba(56,189,248,.35)';
+    if(passed){ sctx.shadowBlur=12; sctx.shadowColor='#22d3ee'; }
+    sctx.fill(); sctx.shadowBlur=0;
+  }
+
+  /* --- 4. 光核 --- */
+  const pulseRate = 0.55 + w*2.0;
+  SP.pulse += pulseRate*0.0145;
+  const wob = SP.grad!=null ? clamp(SP.grad*0.10,0,0.16) : 0.08;
+  const pr = R*(0.27 + 0.032*Math.sin(SP.pulse) + wob*(Math.random()-0.5));
+  const col = lossColor(k);
+
+  // 外层弥散辉光
+  const g1=sctx.createRadialGradient(cx,cy,0,cx,cy,pr*2.9);
+  g1.addColorStop(0, lossColor(k,0.34));
+  g1.addColorStop(0.38, lossColor(k,0.14));
+  g1.addColorStop(0.68, lossColor(k,0.05));
+  g1.addColorStop(1, lossColor(k,0));
+  sctx.beginPath(); sctx.arc(cx,cy,pr*2.9,0,7); sctx.fillStyle=g1; sctx.fill();
+
+  // 核心：中心留一块暗区，让正中间那行大号 loss 数字读得清 —— 黑洞 + 炽热吸积盘
+  const g2=sctx.createRadialGradient(cx,cy,0,cx,cy,pr);
+  g2.addColorStop(0.00,'rgba(3,9,17,.90)');
+  g2.addColorStop(0.42,'rgba(4,12,22,.80)');
+  g2.addColorStop(0.58, lossColor(k,0.28+0.30*w));
+  g2.addColorStop(0.74, lossColor(k,0.72+0.22*w));
+  g2.addColorStop(0.88, lossColor(k,0.34));
+  g2.addColorStop(1.00, lossColor(k,0));
+  sctx.beginPath(); sctx.arc(cx,cy,pr,0,7); sctx.fillStyle=g2;
+  sctx.shadowBlur=30+26*w; sctx.shadowColor=col; sctx.fill(); sctx.shadowBlur=0;
+
+  /* 光核外一两道细弧，像吸积盘 */
+  sctx.save();
+  for(let r=0;r<2;r++){
+    sctx.beginPath();
+    sctx.ellipse(cx,cy,pr*(1.45+r*0.30),pr*(1.45+r*0.30)*0.34,SP.tilt,0,Math.PI*2);
+    sctx.strokeStyle=lossColor(k, 0.18-r*0.07); sctx.lineWidth=1+r*0.5; sctx.stroke();
+  }
+  sctx.restore();
+
+  /* --- 5. 内流粒子 --- */
+  const util=SP.util==null?60:SP.util;
+  const want = Math.round(clamp(util/100,0,1)*26) + 8;
+  while(SP.particles.length<want) SP.particles.push(mkParticle());
+  if(SP.particles.length>want+6) SP.particles.length=want+6;
+  const spd = (SP.speed||1)*0.55;
+  for(let i=SP.particles.length-1;i>=0;i--){
+    const p=SP.particles[i];
+    p.r -= p.v*spd;
+    p.life += 1/60;
+    if(p.r<=0.30){ SP.particles.splice(i,1); continue; }
+    const ang=p.a + SP.rotY*0.35;
+    const X=Math.cos(ang)*p.r, Z=Math.sin(ang)*p.r, Y=p.h*(1-p.r/1.35);
+    const q=proj(X,Y,Z,ry);
+    const fade=clamp((p.r-0.30)/0.35,0,1);
+    sctx.beginPath(); sctx.arc(q[0],q[1],clamp(1.9*(1-p.r/2.4),0.5,2.2),0,7);
+    sctx.fillStyle=`rgba(226,249,255,${(0.16+0.62*fade).toFixed(3)})`;
+    sctx.shadowBlur=8; sctx.shadowColor='#22d3ee'; sctx.fill(); sctx.shadowBlur=0;
+  }
+}
+function mkParticle(){
+  const a=Math.random()*Math.PI*2, r=1.28+Math.random()*0.14;
+  return {a, r, h:(Math.random()-0.5)*1.5, v:0.0016+Math.random()*0.0032, life:0};
+}
+function loop(){
+  SP.rotY += SP.spin * (SP.itSpeed||1);
+  SP.rotY %= Math.PI*2;
+  drawSphere();
+  requestAnimationFrame(loop);
+}
+
+/* ================= 折线图（带悬停十字准星） ================= */
+const CH = {};                       // 每个图表的绘图状态，供悬停时重绘
+
+function roundRect(x, bx, by, w, h, r){
+  if(x.roundRect){ x.beginPath(); x.roundRect(bx,by,w,h,r); return; }
+  x.beginPath();
+  x.moveTo(bx+r,by); x.lineTo(bx+w-r,by); x.quadraticCurveTo(bx+w,by,bx+w,by+r);
+  x.lineTo(bx+w,by+h-r); x.quadraticCurveTo(bx+w,by+h,bx+w-r,by+h);
+  x.lineTo(bx+r,by+h); x.quadraticCurveTo(bx,by+h,bx,by+h-r);
+  x.lineTo(bx,by+r); x.quadraticCurveTo(bx,by,bx+r,by); x.closePath();
+}
+
+function drawChart(id, pts, opts){
+  const c=$(id); if(!c) return;
+  const rect=c.getBoundingClientRect();
+  const dpr=Math.min(devicePixelRatio||1,2);
+  const cw=Math.max(1,Math.round(rect.width*dpr)), chh=Math.max(1,Math.round(rect.height*dpr));
+  if(c.width!==cw || c.height!==chh){ c.width=cw; c.height=chh; }
+  const x=c.getContext('2d');
+  x.setTransform(dpr,0,0,dpr,0,0);
+  const W=rect.width, H=rect.height;
+  x.clearRect(0,0,W,H);
+  x.textBaseline='alphabetic';
+
+  if(!pts || pts.length<2){
+    delete CH[id];
+    x.fillStyle='rgba(107,139,164,.6)'; x.font='10px ui-monospace,monospace';
+    x.fillText('等待数据点…', 42, H/2);
+    return;
+  }
+
+  const PL=42, PR=12, PT=10, PB=18, iw=W-PL-PR, ih=H-PT-PB;
+  const ysArr=pts.map(p=>p.y);
+  let x0=opts.x0!=null?opts.x0:0, x1=opts.x1!=null?opts.x1:Math.max(...pts.map(p=>p.x));
+  if(x1<=x0) x1=x0+1;
+  let y0=opts.y0!=null?opts.y0:Math.min(...ysArr), y1=opts.y1!=null?opts.y1:Math.max(...ysArr);
+  const padv=(y1-y0)*0.14||0.01; y0-=padv; y1+=padv;
+  const X=v=>PL+(v-x0)/(x1-x0)*iw, Y=v=>PT+ih-(v-y0)/(y1-y0)*ih;
+
+  // 保存给悬停用
+  const st = CH[id] || (CH[id]={});
+  st.pts=pts; st.opts=opts; st.dims={PL,PT,iw,ih,W,H,x0,x1,y0,y1};
+
+  // 网格
+  x.strokeStyle='rgba(56,189,248,.10)'; x.lineWidth=1;
+  for(let i=0;i<=4;i++){
+    const yy=PT+ih*i/4;
+    x.beginPath(); x.moveTo(PL,yy); x.lineTo(PL+iw,yy); x.stroke();
+    x.fillStyle='rgba(107,139,164,.85)'; x.font='9px ui-monospace,monospace';
+    x.textAlign='right'; x.fillText((y1-(y1-y0)*i/4).toFixed(opts.dec??2), PL-5, yy+3);
+  }
+  for(let i=0;i<=4;i++){
+    const xx=PL+iw*i/4;
+    x.beginPath(); x.moveTo(xx,PT); x.lineTo(xx,PT+ih); x.stroke();
+    x.fillStyle='rgba(107,139,164,.7)'; x.textAlign='center';
+    x.fillText(Math.round(x0+(x1-x0)*i/4), xx, H-5);
+  }
+  x.textAlign='left';
+
+  // 面积
+  const grd=x.createLinearGradient(0,PT,0,PT+ih);
+  grd.addColorStop(0, opts.fill||'rgba(34,211,238,.26)');
+  grd.addColorStop(1,'rgba(34,211,238,0)');
+  x.beginPath(); x.moveTo(X(pts[0].x),PT+ih);
+  pts.forEach(p=>x.lineTo(X(p.x),Y(p.y)));
+  x.lineTo(X(pts[pts.length-1].x),PT+ih); x.closePath();
+  x.fillStyle=grd; x.fill();
+
+  // 曲线
+  x.beginPath(); pts.forEach((p,i)=> i?x.lineTo(X(p.x),Y(p.y)):x.moveTo(X(p.x),Y(p.y)));
+  x.strokeStyle=opts.color||'#22d3ee'; x.lineWidth=1.9;
+  x.lineJoin='round'; x.lineCap='round';
+  x.shadowBlur=12; x.shadowColor=opts.color||'#22d3ee'; x.stroke(); x.shadowBlur=0;
+
+  // eval 检查点
+  (opts.marks||[]).forEach(m=>{
+    if(m.x<x0||m.x>x1||m.y<y0||m.y>y1) return;
+    const px=X(m.x), py=Y(m.y);
+    x.beginPath(); x.moveTo(px,py-4.2); x.lineTo(px+4.2,py); x.lineTo(px,py+4.2); x.lineTo(px-4.2,py); x.closePath();
+    x.fillStyle='#34d399'; x.shadowBlur=10; x.shadowColor='#34d399'; x.fill(); x.shadowBlur=0;
+  });
+
+  // 末端点
+  const lp=pts[pts.length-1], lpx=X(lp.x), lpy=Y(lp.y);
+  x.beginPath(); x.arc(lpx,lpy,3.0,0,7); x.fillStyle='#eafeff';
+  x.shadowBlur=13; x.shadowColor=opts.color||'#22d3ee'; x.fill(); x.shadowBlur=0;
+
+  // 悬停层
+  if(st.hover!=null && pts[st.hover]) drawCrosshair(x, st, st.dims);
+}
+
+/* 悬停：竖直准星 + 高亮点 + 数值提示框 */
+function drawCrosshair(x, st, d){
+  const p=st.pts[st.hover];
+  const px=d.PL+(p.x-d.x0)/(d.x1-d.x0)*d.iw;
+  const py=d.PT+d.ih-(p.y-d.y0)/(d.y1-d.y0)*d.ih;
+  const col=st.opts.color||'#22d3ee';
+
+  x.save();
+  x.setLineDash([3,3]);
+  x.strokeStyle='rgba(160,210,230,.45)'; x.lineWidth=1;
+  x.beginPath(); x.moveTo(px,d.PT); x.lineTo(px,d.PT+d.ih); x.stroke();
+  x.beginPath(); x.moveTo(d.PL,py); x.lineTo(d.PL+d.iw,py); x.stroke();
+  x.setLineDash([]);
+
+  x.beginPath(); x.arc(px,py,4.2,0,7);
+  x.fillStyle='#ffffff'; x.shadowBlur=15; x.shadowColor=col; x.fill(); x.shadowBlur=0;
+
+  const lines = st.opts.tip ? st.opts.tip(p) : [`step ${p.x}`, p.y.toFixed(4)];
+  x.font='10.5px ui-monospace,monospace';
+  const tw = Math.max(...lines.map(s=>x.measureText(s).width))+18;
+  const th = lines.length*14+11;
+  let bx = px+11, by = d.PT+3;
+  if(bx+tw > d.PL+d.iw) bx = px-tw-11;      // 贴右边界就翻到左边
+  if(bx < d.PL) bx = d.PL;
+  if(by+th > d.PT+d.ih) by = d.PT+d.ih-th;
+
+  roundRect(x, bx, by, tw, th, 3);
+  x.fillStyle='rgba(4,14,26,.95)'; x.fill();
+  x.strokeStyle=col; x.globalAlpha=.55; x.lineWidth=1; x.stroke(); x.globalAlpha=1;
+
+  x.textAlign='left'; x.textBaseline='top';
+  lines.forEach((s,k)=>{
+    x.fillStyle = k===0 ? '#9fc4d6' : '#eafeff';
+    x.fillText(s, bx+9, by+6+k*14);
+  });
+  x.restore();
+  x.textBaseline='alphabetic';
+}
+
+/* 每个 canvas 只需绑定一次 */
+function bindHover(id){
+  const c=$(id); if(!c || c.__hoverBound) return;
+  c.__hoverBound = true;
+  c.style.pointerEvents='auto';
+  const hit = e=>{
+    const st=CH[id]; if(!st || !st.pts || st.pts.length<2) return;
+    const d=st.dims, r=c.getBoundingClientRect();
+    const mx=e.clientX-r.left;
+    let best=null, bd=1e9;
+    st.pts.forEach((p,i)=>{
+      const px=d.PL+(p.x-d.x0)/(d.x1-d.x0)*d.iw;
+      const dd=Math.abs(px-mx);
+      if(dd<bd){ bd=dd; best=i; }
+    });
+    if(best!==st.hover){ st.hover=best; drawChart(id, st.pts, st.opts); }
+  };
+  c.addEventListener('mousemove', hit);
+  c.addEventListener('mouseleave', ()=>{
+    const st=CH[id];
+    if(st && st.hover!=null){ st.hover=null; drawChart(id, st.pts, st.opts); }
+  });
+}
+
+/* ================= 渲染 ================= */
+let last=null, prevLoss=null;
+function render(d){
+  if(d.error){
+    $('status').className='pill dead';
+    $('statustext').textContent = '连接失败';
+    if(!last){ $('log').textContent = '⚠ ' + d.error + (d.stderr? '\n'+d.stderr : ''); }
+    return;
+  }
+  last=d;
+  const p=d.progress||{}, lc=d.loss_curve||[], ec=(d.eval_curve||[]).map(e=>({...e, step:e.step??e.step}));
+  const lastPt=lc.length? lc[lc.length-1] : null;
+
+  // 头部
+  $('host').textContent = d.host||'—';
+  const st=$('status');
+  if(d.finished){ st.className='pill done'; $('statustext').textContent='训练完成'; }
+  else if(d.alive){ st.className='pill'; $('statustext').textContent='训练中'; }
+  else { st.className='pill dead'; $('statustext').textContent='进程已退出'; }
+
+  // 进度
+  $('pbar').style.width = (p.pct||0)+'%';
+  $('ppct').textContent = (p.pct!=null? p.pct.toFixed(1):'—')+'%';
+  $('pside').textContent = `step ${p.cur??'—'} / ${p.total??'—'}`;
+  $('epochtag').textContent = p.epoch_now!=null? `EPOCH ${p.epoch_now.toFixed(2)} / ${p.epochs}` : '—';
+  $('kv_total').textContent = p.total??'—';
+
+  // 指标
+  if(lastPt){
+    ease('s_loss', lastPt.loss, 4);
+    ease('s_gn', Number(lastPt.grad_norm), 3);
+    const lrv=lastPt.lr;
+    $('s_lr').textContent = lrv>=1e-3? (lrv*1e3).toFixed(2)+'e-3' : lrv.toExponential(2).replace('e-','e-');
+  }
+  if(ec.length) ease('s_eval', ec[ec.length-1].eval_loss, 4);
+
+  // 收敛概况
+  if(lc.length>=2){
+    const lo0=lc[0].loss, lon=lc[lc.length-1].loss;
+    $('kv_lo0').textContent = lo0.toFixed(4);
+    $('kv_lon').textContent = lon.toFixed(4);
+    const d = (lo0-lon)/lo0*100;
+    const el=$('kv_drop');
+    el.textContent = (d>=0?'↓ ':'↑ ') + Math.abs(d).toFixed(1) + '%';
+    el.style.color = d>3? 'var(--green)' : (d<-3? 'var(--red)' : 'var(--amber)');
+  }
+
+  // 球心
+  if(lastPt){
+    const v=lastPt.loss;
+    $('coreloss').textContent = v.toFixed(4);
+    $('coreloss').style.color = lossColor(lossK(v));
+    // 标成 "loss @ step" 而不是 "step"，否则会被误读成"当前步数"——
+    // 这里是最后一个 loss 记录点，每 logging_steps 才更新一次，比进度条落后
+    $('coresub').textContent = `loss @ step ${lastPt.step} · epoch ${lastPt.epoch.toFixed(2)}`;
+  } else {
+    $('coreloss').textContent='—';
+  }
+  $('f_step').textContent = p.cur!=null? `${p.cur}`:'—';
+  $('f_eta').textContent = fmtTime(p.eta_sec);
+  $('f_elapsed').textContent = fmtTime(p.elapsed_sec);
+
+  // 收敛趋势：最近三点斜率
+  if(lc.length>=3){
+    const a=lc[lc.length-3].loss, b=lc[lc.length-1].loss;
+    const dl=b-a;
+    const el=$('f_trend'); const eu=$('f_trend');
+    const pct = a? (dl/a*100) : 0;
+    if(dl < -0.005){ el.textContent = pct.toFixed(2)+'%'; el.style.color='#34d399'; }
+    else if(dl >  0.005){ el.textContent = '+'+pct.toFixed(2)+'%'; el.style.color='#fbbf24'; }
+    else { el.textContent = '平稳'; el.style.color='#22d3ee'; }
+  }
+
+  // GPU
+  const g=d.gpu;
+  if(g){
+    $('g_util').style.width=g.util+'%';  $('g_utilt').textContent=g.util.toFixed(0)+'%';
+    const mp=g.mem_used/g.mem_total*100;
+    $('g_mem').style.width=mp+'%'; $('g_memt').textContent=(g.mem_used/1024).toFixed(1)+'G';
+    $('g_tp').textContent=`${g.temp.toFixed(0)}°C / ${g.power.toFixed(0)}W`;
+    $('g_speed').textContent = p.sec_per_it? p.sec_per_it.toFixed(2)+' s/it' : '—';
+    SP.util=g.util;
+  }
+
+  // 图表（鼠标悬停出十字准星 + 数值）
+  const xMax = p.total||undefined;
+  drawChart('c_loss', lc.map(o=>({x:o.step, y:o.loss, epoch:o.epoch})),
+    {color:'#22d3ee', fill:'rgba(34,211,238,.30)', x0:0, x1:xMax, dec:2,
+     marks: ec.map(e=>({x:e.step, y:e.eval_loss})),
+     tip: o=>[`step ${o.x} · epoch ${o.epoch.toFixed(2)}`, `loss ${o.y.toFixed(4)}`]});
+  drawChart('c_lr', lc.map(o=>({x:o.step, y:o.lr*1e5, epoch:o.epoch})),
+    {color:'#a78bfa', fill:'rgba(167,139,250,.24)', x0:0, x1:xMax, dec:2,
+     tip: o=>[`step ${o.x} · epoch ${o.epoch.toFixed(2)}`, `lr ${(o.y/1e5).toExponential(2)}`]});
+  drawChart('c_gn', lc.map(o=>({x:o.step, y:Number(o.grad_norm), epoch:o.epoch})),
+    {color:'#fbbf24', fill:'rgba(251,191,36,.20)', x0:0, x1:xMax, dec:2,
+     tip: o=>[`step ${o.x} · epoch ${o.epoch.toFixed(2)}`, `grad_norm ${o.y.toFixed(4)}`]});
+  $('losstag').textContent = `共 ${lc.length} 个记录点 · 悬停看数值`;
+
+  // 日志：渲染最后 8 行，面板放不下就贴底显示最新行（用户往上翻时不打断他）
+  const raw = (d.log_lines || []).slice(-8);
+  const isBar = s => /\d+\/\d+\s*\[[\d:]+</.test(s);
+  const logEl = $('log');
+  const stick = logEl.scrollHeight - logEl.scrollTop - logEl.clientHeight < 10;
+  logEl.innerHTML = raw.map(s=>{
+    const esc = s.replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;');
+    const cls = isBar(s) ? 'l bar' : (/'(loss|eval_loss)'/.test(s) ? 'l sum' : 'l');
+    return `<div class="${cls}">${esc.length>210? esc.slice(0,210)+'…': esc}</div>`;
+  }).join('');
+  if(stick) logEl.scrollTop = logEl.scrollHeight;
+
+  // 球体状态
+  SP.loss = lastPt? lastPt.loss : SP.loss;
+  SP.grad = lastPt? Number(lastPt.grad_norm) : SP.grad;
+  SP.pct  = p.pct||0;
+  SP.epoch= p.epoch_now||0;
+  SP.epochs = p.epochs||3;
+  SP.total = p.total||null;
+  SP.itSpeed = p.sec_per_it? clamp(13.4/p.sec_per_it, 0.25, 3) : 1;
+  SP.speed = SP.itSpeed;
+
+  // 螺旋：半径=loss（高在外），角度=进度
+  if(lc.length){
+    const losses=lc.map(o=>o.loss);
+    const lo=Math.min(...losses), hi=Math.max(...losses);
+    const span=(hi-lo)||1;
+    // 锚定全量区间，避免每次刷新螺旋整体缩放
+    const HI=Math.max(hi, LO_BAD-0.35), LO=Math.min(lo, LO_GOOD+0.05);
+    SP.spiral = lc.map(o=>({
+      a: -Math.PI/2 + (p.total? clamp(o.step/p.total,0,1) : 0)*Math.PI*2,
+      t: clamp((o.loss-LO)/((HI-LO)||1),0,1)
+    }));
+  }
+}
+
+/* ================= 轮询 ================= */
+async function poll(){
+  try{
+    const r=await fetch('/api/status',{cache:'no-store'});
+    render(await r.json());
+  }catch(e){
+    $('status').className='pill dead'; $('statustext').textContent='服务未响应';
+  }
+}
+addEventListener('resize', ()=>{ if(last) render(last); });
+
+setInterval(()=>{
+  const d=new Date();
+  $('clock').textContent = d.toTimeString().slice(0,8);
+},1000);
+$('clock').textContent = new Date().toTimeString().slice(0,8);
+
+resizeSphere();
+['c_loss','c_lr','c_gn'].forEach(bindHover);
+loop();
+poll();
+setInterval(poll, 5000);
+</script>
+</body>
+</html>

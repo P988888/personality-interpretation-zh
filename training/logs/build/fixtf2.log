@@ -1,0 +1,51 @@
+=== 安装 transformers 4.56.2（满足所有约束的交集）===
+Looking in indexes: https://repo.huaweicloud.com/repository/pypi/simple
+Collecting transformers==4.56.2
+  Downloading transformers-4.56.2-py3-none-any.whl (11.6 MB)
+     ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ 11.6/11.6 MB 9.0 MB/s  0:00:01
+Requirement already satisfied: filelock in /data/miniconda/envs/torch/lib/python3.12/site-packages (from transformers==4.56.2) (3.25.2)
+Requirement already satisfied: huggingface-hub<1.0,>=0.34.0 in /data/miniconda/envs/torch/lib/python3.12/site-packages (from transformers==4.56.2) (0.36.2)
+Requirement already satisfied: numpy>=1.17 in /data/miniconda/envs/torch/lib/python3.12/site-packages (from transformers==4.56.2) (2.5.4)
+Requirement already satisfied: packaging>=20.0 in /data/miniconda/envs/torch/lib/python3.12/site-packages (from transformers==4.56.2) (25.0)
+Requirement already satisfied: pyyaml>=5.1 in /data/miniconda/envs/torch/lib/python3.12/site-packages (from transformers==4.56.2) (6.0.3)
+Requirement already satisfied: regex!=2019.12.17 in /data/miniconda/envs/torch/lib/python3.12/site-packages (from transformers==4.56.2) (2026.9.29)
+Requirement already satisfied: requests in /data/miniconda/envs/torch/lib/python3.12/site-packages (from transformers==4.56.2) (2.32.5)
+Collecting tokenizers<=0.23.0,>=0.22.0 (from transformers==4.56.2)
+  Using cached tokenizers-0.22.2-cp39-abi3-manylinux_2_17_x86_64.manylinux2014_x86_64.whl (3.3 MB)
+Requirement already satisfied: safetensors>=0.4.3 in /data/miniconda/envs/torch/lib/python3.12/site-packages (from transformers==4.56.2) (0.8.0)
+Requirement already satisfied: tqdm>=4.27 in /data/miniconda/envs/torch/lib/python3.12/site-packages (from transformers==4.56.2) (4.67.3)
+Requirement already satisfied: fsspec>=2023.5.0 in /data/miniconda/envs/torch/lib/python3.12/site-packages (from huggingface-hub<1.0,>=0.34.0->transformers==4.56.2) (2025.3.0)
+Requirement already satisfied: hf-xet<2.0.0,>=1.1.3 in /data/miniconda/envs/torch/lib/python3.12/site-packages (from huggingface-hub<1.0,>=0.34.0->transformers==4.56.2) (1.7.0)
+Requirement already satisfied: typing-extensions>=3.7.4.3 in /data/miniconda/envs/torch/lib/python3.12/site-packages (from huggingface-hub<1.0,>=0.34.0->transformers==4.56.2) (4.16.0)
+Requirement already satisfied: charset_normalizer<4,>=2 in /data/miniconda/envs/torch/lib/python3.12/site-packages (from requests->transformers==4.56.2) (3.4.6)
+Requirement already satisfied: idna<4,>=2.5 in /data/miniconda/envs/torch/lib/python3.12/site-packages (from requests->transformers==4.56.2) (3.11)
+Requirement already satisfied: urllib3<3,>=1.21.1 in /data/miniconda/envs/torch/lib/python3.12/site-packages (from requests->transformers==4.56.2) (2.6.3)
+Requirement already satisfied: certifi>=2017.4.17 in /data/miniconda/envs/torch/lib/python3.12/site-packages (from requests->transformers==4.56.2) (2026.2.25)
+Installing collected packages: tokenizers, transformers
+  Attempting uninstall: tokenizers
+    Found existing installation: tokenizers 0.21.4
+    Uninstalling tokenizers-0.21.4:
+      Successfully uninstalled tokenizers-0.21.4
+  Attempting uninstall: transformers
+    Found existing installation: transformers 4.55.3
+    Uninstalling transformers-4.55.3:
+      Successfully uninstalled transformers-4.55.3
+
+Successfully installed tokenizers-0.22.2 transformers-4.49.0
+WARNING: Running pip as the 'root' user can result in broken permissions and conflicting behaviour with the system package manager, possibly rendering your system unusable. It is recommended to use a virtual environment instead: https://pip.pypa.io/warnings/venv. Use the --root-user-action option if you know what you are doing and want to suppress this warning.
+EXIT=0
+
+=== 依赖一致性检查 ===
+llamafactory 0.9.5 has requirement transformers!=4.52.0,!=4.57.0,<=5.6.0,>=4.55.0, but you have transformers 4.49.0.
+trl 0.24.0 has requirement transformers>=4.56.1, but you have transformers 4.49.0.
+transformers 4.49.0 has requirement tokenizers<0.22,>=0.21, but you have tokenizers 0.22.2.
+
+=== 完整导入链验证 ===
+  File "/data/miniconda/envs/torch/lib/python3.12/site-packages/llamafactory/extras/misc.py", line 92, in check_version
+    require_version(requirement, hint)
+  File "/data/miniconda/envs/torch/lib/python3.12/site-packages/transformers/utils/versions.py", line 111, in require_version
+    _compare_versions(op, got_ver, want_ver, requirement, pkg, hint)
+  File "/data/miniconda/envs/torch/lib/python3.12/site-packages/transformers/utils/versions.py", line 44, in _compare_versions
+    raise ImportError(
+ImportError: transformers>=4.55.0,<=5.6.0 is required for a normal functioning of this module, but found transformers==4.49.0.
+To fix: run `pip install transformers>=4.55.0,<=5.6.0` or set `DISABLE_VERSION_CHECK=1` to skip this check.

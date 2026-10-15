@@ -1,0 +1,32 @@
+模型: /data/hf_cache/hub/models--Qwen--Qwen2.5-7B-Instruct/snapshots/a09a35458c702b33eeacc393d103063234e8bc28
+开始冒烟测试 19:55:00
+
+/data/miniconda/envs/torch/lib/python3.12/site-packages/jieba/_compat.py:18: UserWarning: pkg_resources is deprecated as an API. See https://setuptools.pypa.io/en/latest/pkg_resources.html. The pkg_resources package is slated for removal as early as 2025-11-30. Refrain from using this package or pin to Setuptools<81.
+  import pkg_resources
+Traceback (most recent call last):
+  File "/data/miniconda/envs/torch/bin/llamafactory-cli", line 6, in <module>
+    sys.exit(main())
+             ^^^^^^
+  File "/data/miniconda/envs/torch/lib/python3.12/site-packages/llamafactory/cli.py", line 24, in main
+    launcher.launch()
+  File "/data/miniconda/envs/torch/lib/python3.12/site-packages/llamafactory/launcher.py", line 157, in launch
+    run_exp()
+  File "/data/miniconda/envs/torch/lib/python3.12/site-packages/llamafactory/train/tuner.py", line 149, in run_exp
+    _training_function(config={"args": args, "callbacks": callbacks})
+  File "/data/miniconda/envs/torch/lib/python3.12/site-packages/llamafactory/train/tuner.py", line 71, in _training_function
+    model_args, data_args, training_args, finetuning_args, generating_args = get_train_args(args)
+                                                                             ^^^^^^^^^^^^^^^^^^^^
+  File "/data/miniconda/envs/torch/lib/python3.12/site-packages/llamafactory/hparams/parser.py", line 308, in get_train_args
+    model_args, data_args, training_args, finetuning_args, generating_args = _parse_train_args(args)
+                                                                             ^^^^^^^^^^^^^^^^^^^^^^^
+  File "/data/miniconda/envs/torch/lib/python3.12/site-packages/llamafactory/hparams/parser.py", line 262, in _parse_train_args
+    return _parse_args(parser, args, allow_extra_keys=allow_extra_keys)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/data/miniconda/envs/torch/lib/python3.12/site-packages/llamafactory/hparams/parser.py", line 107, in _parse_args
+    return parser.parse_dict(args, allow_extra_keys=allow_extra_keys)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/data/miniconda/envs/torch/lib/python3.12/site-packages/transformers/hf_argparser.py", line 396, in parse_dict
+    raise ValueError(f"Some keys are not used by the HfArgumentParser: {sorted(unused_keys)}")
+ValueError: Some keys are not used by the HfArgumentParser: ['--eval_steps', '--max_steps', '--model_name_or_path', '--output_dir', '--save_steps', '/data/hf_cache/hub/models--Qwen--Qwen2', '20', 'training/output/smoke']
+
+=== 冒烟测试结束 19:55:08 退出码=0 ===

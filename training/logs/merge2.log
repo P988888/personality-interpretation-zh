@@ -1,0 +1,197 @@
+[21:14:55] 开始合并
+/data/miniconda/envs/torch/lib/python3.12/site-packages/jieba/_compat.py:18: UserWarning: pkg_resources is deprecated as an API. See https://setuptools.pypa.io/en/latest/pkg_resources.html. The pkg_resources package is slated for removal as early as 2025-11-30. Refrain from using this package or pin to Setuptools<81.
+  import pkg_resources
+[INFO|hub.py:420] 2026-10-15 21:15:03,319 >> Offline mode: forcing local_files_only=True
+[INFO|tokenization_utils_base.py:1923] 2026-10-15 21:15:03,323 >> Offline mode: forcing local_files_only=True
+[INFO|tokenization_utils_base.py:2066] 2026-10-15 21:15:03,323 >> loading file vocab.json
+[INFO|tokenization_utils_base.py:2066] 2026-10-15 21:15:03,323 >> loading file merges.txt
+[INFO|tokenization_utils_base.py:2066] 2026-10-15 21:15:03,323 >> loading file tokenizer.json
+[INFO|tokenization_utils_base.py:2066] 2026-10-15 21:15:03,323 >> loading file added_tokens.json
+[INFO|tokenization_utils_base.py:2066] 2026-10-15 21:15:03,323 >> loading file special_tokens_map.json
+[INFO|tokenization_utils_base.py:2066] 2026-10-15 21:15:03,323 >> loading file tokenizer_config.json
+[INFO|tokenization_utils_base.py:2066] 2026-10-15 21:15:03,323 >> loading file chat_template.jinja
+[INFO|tokenization_utils_base.py:2337] 2026-10-15 21:15:03,779 >> Special tokens have been added in the vocabulary, make sure the associated word embeddings are fine-tuned or trained.
+[INFO|hub.py:420] 2026-10-15 21:15:03,780 >> Offline mode: forcing local_files_only=True
+[INFO|hub.py:420] 2026-10-15 21:15:03,780 >> Offline mode: forcing local_files_only=True
+[INFO|hub.py:420] 2026-10-15 21:15:03,780 >> Offline mode: forcing local_files_only=True
+[INFO|hub.py:420] 2026-10-15 21:15:03,780 >> Offline mode: forcing local_files_only=True
+[INFO|hub.py:420] 2026-10-15 21:15:03,780 >> Offline mode: forcing local_files_only=True
+[INFO|hub.py:420] 2026-10-15 21:15:03,780 >> Offline mode: forcing local_files_only=True
+[INFO|configuration_utils.py:763] 2026-10-15 21:15:03,781 >> loading configuration file /data/hf_cache/hub/models--Qwen--Qwen2.5-7B-Instruct/snapshots/a09a35458c702b33eeacc393d103063234e8bc28/config.json
+[INFO|configuration_utils.py:839] 2026-10-15 21:15:03,783 >> Model config Qwen2Config {
+  "architectures": [
+    "Qwen2ForCausalLM"
+  ],
+  "attention_dropout": 0.0,
+  "bos_token_id": 151643,
+  "dtype": "bfloat16",
+  "eos_token_id": 151645,
+  "hidden_act": "silu",
+  "hidden_size": 3584,
+  "initializer_range": 0.02,
+  "intermediate_size": 18944,
+  "layer_types": [
+    "full_attention",
+    "full_attention",
+    "full_attention",
+    "full_attention",
+    "full_attention",
+    "full_attention",
+    "full_attention",
+    "full_attention",
+    "full_attention",
+    "full_attention",
+    "full_attention",
+    "full_attention",
+    "full_attention",
+    "full_attention",
+    "full_attention",
+    "full_attention",
+    "full_attention",
+    "full_attention",
+    "full_attention",
+    "full_attention",
+    "full_attention",
+    "full_attention",
+    "full_attention",
+    "full_attention",
+    "full_attention",
+    "full_attention",
+    "full_attention",
+    "full_attention"
+  ],
+  "max_position_embeddings": 32768,
+  "max_window_layers": 28,
+  "model_type": "qwen2",
+  "num_attention_heads": 28,
+  "num_hidden_layers": 28,
+  "num_key_value_heads": 4,
+  "rms_norm_eps": 1e-06,
+  "rope_scaling": null,
+  "rope_theta": 1000000.0,
+  "sliding_window": null,
+  "tie_word_embeddings": false,
+  "transformers_version": "4.56.2",
+  "use_cache": true,
+  "use_sliding_window": false,
+  "vocab_size": 152064
+}
+
+[INFO|hub.py:420] 2026-10-15 21:15:03,783 >> Offline mode: forcing local_files_only=True
+[INFO|tokenization_utils_base.py:1923] 2026-10-15 21:15:03,784 >> Offline mode: forcing local_files_only=True
+[INFO|tokenization_utils_base.py:2066] 2026-10-15 21:15:03,784 >> loading file vocab.json
+[INFO|tokenization_utils_base.py:2066] 2026-10-15 21:15:03,784 >> loading file merges.txt
+[INFO|tokenization_utils_base.py:2066] 2026-10-15 21:15:03,784 >> loading file tokenizer.json
+[INFO|tokenization_utils_base.py:2066] 2026-10-15 21:15:03,784 >> loading file added_tokens.json
+[INFO|tokenization_utils_base.py:2066] 2026-10-15 21:15:03,785 >> loading file special_tokens_map.json
+[INFO|tokenization_utils_base.py:2066] 2026-10-15 21:15:03,785 >> loading file tokenizer_config.json
+[INFO|tokenization_utils_base.py:2066] 2026-10-15 21:15:03,785 >> loading file chat_template.jinja
+[INFO|tokenization_utils_base.py:2337] 2026-10-15 21:15:04,222 >> Special tokens have been added in the vocabulary, make sure the associated word embeddings are fine-tuned or trained.
+[INFO|hub.py:420] 2026-10-15 21:15:04,310 >> Offline mode: forcing local_files_only=True
+[INFO|configuration_utils.py:763] 2026-10-15 21:15:04,311 >> loading configuration file /data/hf_cache/hub/models--Qwen--Qwen2.5-7B-Instruct/snapshots/a09a35458c702b33eeacc393d103063234e8bc28/config.json
+[INFO|configuration_utils.py:839] 2026-10-15 21:15:04,312 >> Model config Qwen2Config {
+  "architectures": [
+    "Qwen2ForCausalLM"
+  ],
+  "attention_dropout": 0.0,
+  "bos_token_id": 151643,
+  "dtype": "bfloat16",
+  "eos_token_id": 151645,
+  "hidden_act": "silu",
+  "hidden_size": 3584,
+  "initializer_range": 0.02,
+  "intermediate_size": 18944,
+  "layer_types": [
+    "full_attention",
+    "full_attention",
+    "full_attention",
+    "full_attention",
+    "full_attention",
+    "full_attention",
+    "full_attention",
+    "full_attention",
+    "full_attention",
+    "full_attention",
+    "full_attention",
+    "full_attention",
+    "full_attention",
+    "full_attention",
+    "full_attention",
+    "full_attention",
+    "full_attention",
+    "full_attention",
+    "full_attention",
+    "full_attention",
+    "full_attention",
+    "full_attention",
+    "full_attention",
+    "full_attention",
+    "full_attention",
+    "full_attention",
+    "full_attention",
+    "full_attention"
+  ],
+  "max_position_embeddings": 32768,
+  "max_window_layers": 28,
+  "model_type": "qwen2",
+  "num_attention_heads": 28,
+  "num_hidden_layers": 28,
+  "num_key_value_heads": 4,
+  "rms_norm_eps": 1e-06,
+  "rope_scaling": null,
+  "rope_theta": 1000000.0,
+  "sliding_window": null,
+  "tie_word_embeddings": false,
+  "transformers_version": "4.56.2",
+  "use_cache": true,
+  "use_sliding_window": false,
+  "vocab_size": 152064
+}
+
+[WARNING|logging.py:328] 2026-10-15 21:15:04,312 >> `torch_dtype` is deprecated! Use `dtype` instead!
+[INFO|2026-10-15 21:15:04] llamafactory.model.model_utils.kv_cache:144 >> KV cache is enabled for faster generation.
+[WARNING|logging.py:328] 2026-10-15 21:15:04,477 >> `torch_dtype` is deprecated! Use `dtype` instead!
+[INFO|modeling_utils.py:4967] 2026-10-15 21:15:04,477 >> Offline mode: forcing local_files_only=True
+[INFO|modeling_utils.py:1277] 2026-10-15 21:15:04,478 >> loading weights file /data/hf_cache/hub/models--Qwen--Qwen2.5-7B-Instruct/snapshots/a09a35458c702b33eeacc393d103063234e8bc28/model.safetensors.index.json
+[INFO|modeling_utils.py:1351] 2026-10-15 21:15:04,478 >> Will use dtype=torch.bfloat16 as defined in model's config object
+[INFO|modeling_utils.py:2466] 2026-10-15 21:15:04,478 >> Instantiating Qwen2ForCausalLM model under default dtype torch.bfloat16.
+[INFO|configuration_utils.py:1055] 2026-10-15 21:15:04,481 >> Generate config GenerationConfig {
+  "bos_token_id": 151643,
+  "eos_token_id": 151645
+}
+
+Loading checkpoint shards:   0%|          | 0/4 [00:00<?, ?it/s]Loading checkpoint shards: 100%|██████████| 4/4 [00:00<00:00, 107.34it/s]
+[INFO|modeling_utils.py:5724] 2026-10-15 21:15:04,554 >> All model checkpoint weights were used when initializing Qwen2ForCausalLM.
+
+[INFO|modeling_utils.py:5732] 2026-10-15 21:15:04,554 >> All the weights of Qwen2ForCausalLM were initialized from the model checkpoint at /data/hf_cache/hub/models--Qwen--Qwen2.5-7B-Instruct/snapshots/a09a35458c702b33eeacc393d103063234e8bc28.
+If your task is similar to the task the model of the checkpoint was trained on, you can already use Qwen2ForCausalLM for predictions without further training.
+[INFO|configuration_utils.py:1008] 2026-10-15 21:15:04,556 >> loading configuration file /data/hf_cache/hub/models--Qwen--Qwen2.5-7B-Instruct/snapshots/a09a35458c702b33eeacc393d103063234e8bc28/generation_config.json
+[INFO|configuration_utils.py:1055] 2026-10-15 21:15:04,557 >> Generate config GenerationConfig {
+  "bos_token_id": 151643,
+  "do_sample": true,
+  "eos_token_id": [
+    151645,
+    151643
+  ],
+  "pad_token_id": 151643,
+  "repetition_penalty": 1.05,
+  "temperature": 0.7,
+  "top_k": 20,
+  "top_p": 0.8
+}
+
+[INFO|2026-10-15 21:15:04] llamafactory.model.model_utils.attention:144 >> Using torch SDPA for faster training and inference.
+/data/miniconda/envs/torch/lib/python3.12/site-packages/peft/config.py:220: UserWarning: Unexpected keyword arguments ['kasa_config', 'lora_ga_config', 'monteclora_config', 'use_bdlora', 'velora_config'] for class LoraConfig, these are ignored. This probably means that you're loading a configuration file that was saved using a higher version of the library and additional parameters have been introduced since. It is highly recommended to upgrade the PEFT version before continuing (e.g. by running `pip install -U peft`).
+  warnings.warn(
+[INFO|2026-10-15 21:16:09] llamafactory.model.adapter:144 >> Merged 1 adapter(s).
+[INFO|2026-10-15 21:16:09] llamafactory.model.adapter:144 >> Loaded adapter(s): training/output/qwen7b-lora-v1
+[INFO|2026-10-15 21:16:09] llamafactory.model.loader:144 >> all params: 7,615,616,512
+[INFO|2026-10-15 21:16:09] llamafactory.train.tuner:144 >> Convert model dtype to: torch.bfloat16.
+[INFO|configuration_utils.py:491] 2026-10-15 21:16:09,445 >> Configuration saved in training/output/qwen7b-merged/config.json
+[INFO|configuration_utils.py:826] 2026-10-15 21:16:09,445 >> Configuration saved in training/output/qwen7b-merged/generation_config.json
+[INFO|modeling_utils.py:4308] 2026-10-15 21:16:27,983 >> The model is bigger than the maximum size per checkpoint (4GB) and is going to be split in 4 checkpoint shards. You can find where each parameters has been saved in the index located at training/output/qwen7b-merged/model.safetensors.index.json.
+[INFO|tokenization_utils_base.py:2394] 2026-10-15 21:16:27,984 >> chat template saved in training/output/qwen7b-merged/chat_template.jinja
+[INFO|tokenization_utils_base.py:2563] 2026-10-15 21:16:27,984 >> tokenizer config file saved in training/output/qwen7b-merged/tokenizer_config.json
+[INFO|tokenization_utils_base.py:2572] 2026-10-15 21:16:27,984 >> Special tokens file saved in training/output/qwen7b-merged/special_tokens_map.json
+[INFO|2026-10-15 21:16:28] llamafactory.train.tuner:144 >> Ollama modelfile saved in training/output/qwen7b-merged/Modelfile
+[21:16:31] rc=0

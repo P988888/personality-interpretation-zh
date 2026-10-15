@@ -1,0 +1,88 @@
+# LLaMA-Factory LoRA 微调配置
+# 场景：Qwen2.5-7B-Instruct + RTX 8000 (48GB)
+# 任务：人格测评解读风格与规则内化
+#
+# 用法：
+#   1. 把 curated 数据转成 LLaMA-Factory 的 sharegpt 格式（见 scripts/to_llamafactory.py）
+#   2. llamafactory-cli train training/configs/lora_qwen7b.yaml
+#   3. llamafactory-cli export training/configs/merge_qwen7b.yaml
+#
+# 显存说明（48GB 卡的分配）：
+#   bf16 权重 ~15GB + LoRA 优化器状态 ~1GB + 激活(seq4096, bs2) ~8GB ≈ 25-30GB
+#   余量足够开 seq_len=4096 与 gradient_checkpointing=false 的二选一，
+#   本配置选择保留 checkpointing（更稳），如需提速可关闭。
+
+### model
+model_name_or_path: Qwen/Qwen2.5-7B-Instruct
+trust_remote_code: true
+flash_attn: fa2                 # 48G 卡建议启用，提速明显
+
+### method —— 关键：bf16 LoRA，不用 QLoRA
+stage: sft
+do_train: true
+finetuning_type: lora
+lora_rank: 32                   # 解读风格需要一定容量，16 偏紧、64 过拟合风险高
+lora_alpha: 64                  # alpha = 2*rank 是稳妥起点
+lora_dropout: 0.05
+lora_target: all                # 覆盖所有 linear 层（含 q/k/v/o/gate/up/down）
+# 不用 quantization_bit —— 48G 显存无需 4bit 量化，避免精度损失
+
+### dataset
+# 两套量表的数据集名（在 dataset_info.json 中登记）。
+# 若只想训一套，删掉对应项即可。
+dataset: personality_bigfive,personality_mbti
+template: qwen                   # Qwen2.5 的 chat template
+cutoff_len: 4096                # 实测：1399 条样本 token 中位 1782、最长 2214，余量充足
+max_samples: 100000
+overwrite_cache: true
+preprocessing_num_workers: 8
+
+### output
+output_dir: models/personality-lora-v1
+logging_steps: 10
+save_steps: 200
+plot_loss: true
+overwrite_output_dir: true
+report_to: none                 # 本地训练，不接 wandb
+
+### train
+# 显存实测估算（7B + bf16 LoRA）：权重 15.2G + LoRA/优化器 0.5G + 激活 ~0.5G ≈ 16.2G
+# 即 24G 卡有约 8G 富余，48G 卡大量富余。
+#
+# 提速要点（按收益排序）：
+#   1. 关掉 gradient_checkpointing —— 24G 卡够用，可提速约 30%
+#   2. 加大 per_device_train_batch_size —— 保持有效 batch 16 即可
+#   3. 减少 epoch —— 数据同质，3 epoch 通常与 4 epoch 无差
+per_device_train_batch_size: 4  # 24G: 4 足够；48G 可提到 8
+gradient_accumulation_steps: 4  # 有效 batch = 4 × 4 = 16
+learning_rate: 1.0e-4           # LoRA 常用区间 1e-4 ~ 2e-4
+num_train_epochs: 3.0           # 1579 条同质数据，3 epoch 够；过拟合风险高于欠拟合
+lr_scheduler_type: cosine
+warmup_ratio: 0.1
+bf16: true
+# 关键：24G 显存下可关闭。开启则省显存但慢约 30%；显存紧张时再打开。
+gradient_checkpointing: false
+weight_decay: 0.01
+
+### eval —— 必须留验证集，否则无法判断过拟合
+val_size: 0.1
+per_device_eval_batch_size: 4
+eval_strategy: steps
+eval_steps: 100
+save_total_limit: 3
+load_best_model_at_end: true
+metric_for_best_model: eval_loss
+
+### 其他
+ddp_timeout: 180000000
+
+# ---------------------------------------------------------------
+# 备选：如果显存允许且追求最佳效果，可升级为全参微调
+# 把 stage 改为 sft + finetuning_type: full，并调整：
+#   learning_rate: 2.0e-5   （全参比 LoRA 低一个量级）
+#   per_device_train_batch_size: 1
+#   gradient_accumulation_steps: 16
+# 48G 跑 7B 全参 bf16 是可行的（权重15G+优化器30G 略紧），
+# 但建议先用 LoRA 验证数据质量，确认方向无误再考虑。
+# 数据有问题时，全参微调只会更彻底地学到错误。
+# ---------------------------------------------------------------

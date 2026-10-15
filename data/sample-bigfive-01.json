@@ -1,0 +1,49 @@
+{
+  "instrument": "big-five",
+  "version": "IPIP-NEO-120",
+  "scale": "percentile",
+  "norm_source": "IPIP-NEO-120 general adult sample",
+  "domains": {
+    "O": 74,
+    "C": 38,
+    "E": 55,
+    "A": 61,
+    "N": 44
+  },
+  "facets": {
+    "O1_imagination": 79,
+    "O2_artistic": 84,
+    "O3_emotionality": 71,
+    "O4_adventurousness": 66,
+    "O5_intellect": 48,
+    "O6_liberalism": 42,
+
+    "C1_self_efficacy": 52,
+    "C2_orderliness": 29,
+    "C3_dutifulness": 63,
+    "C4_achievement_striving": 41,
+    "C5_self_discipline": 26,
+    "C6_cautiousness": 47,
+
+    "E1_warmth": 68,
+    "E2_gregariousness": 61,
+    "E3_assertiveness": 34,
+    "E4_activity_level": 49,
+    "E5_excitement_seeking": 57,
+    "E6_cheerfulness": 62,
+
+    "A1_trust": 65,
+    "A2_straightforwardness": 72,
+    "A3_altruism": 70,
+    "A4_compliance": 73,
+    "A5_modesty": 66,
+    "A6_sympathy": 75,
+
+    "N1_anxiety": 58,
+    "N2_anger": 39,
+    "N3_depression": 45,
+    "N4_self_consciousness": 67,
+    "N5_immoderation": 54,
+    "N6_vulnerability": 51
+  }
+}

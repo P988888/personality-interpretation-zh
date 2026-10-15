@@ -1,0 +1,26 @@
+# 合并 LoRA adapter 到基座模型，产出可独立部署的完整权重
+# 用法：llamafactory-cli export training/configs/merge_qwen7b.yaml
+#
+# 注意 model_name_or_path 用绝对路径而不是 "Qwen/Qwen2.5-7B-Instruct"：
+# 这台机器连不上 huggingface.co，写仓库名会让 HF 去联网校验，必然挂住。
+# 直接指向本地缓存快照，离线可跑。
+
+### model
+model_name_or_path: Qwen/Qwen2.5-7B-Instruct
+adapter_name_or_path: models/personality-lora-v1
+template: qwen
+trust_remote_code: true
+
+### export
+export_dir: models/personality-fp16-merged
+export_size: 4
+export_device: cpu          # 机器有 754G 内存，CPU 合并最省心，几分钟就好
+export_legacy_format: false
+finetuning_type: lora
+
+# 合并后得到完整 7B 权重，约 15GB (bf16)。部署二选一：
+#   1. vLLM（推荐，吞吐高）：
+#      python -m vllm.entrypoints.openai.api_server \
+#          --model models/personality-fp16-merged --served-model-name personality
+#   2. 转 GGUF 本地跑（llama.cpp / Ollama）：
+#      convert_hf_to_gguf.py + quantize，Q4_K_M 约 4.5GB

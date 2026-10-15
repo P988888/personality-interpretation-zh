@@ -1,0 +1,842 @@
+[
+  {
+    "facet": "N1_anxiety",
+    "facet_name": "Anxiety",
+    "domain": "N",
+    "text_en": "Worry about things.",
+    "keyed": "+"
+  },
+  {
+    "facet": "N2_anger",
+    "facet_name": "Anger",
+    "domain": "N",
+    "text_en": "Get angry easily.",
+    "keyed": "+"
+  },
+  {
+    "facet": "N3_depression",
+    "facet_name": "Depression",
+    "domain": "N",
+    "text_en": "Often feel blue.",
+    "keyed": "+"
+  },
+  {
+    "facet": "N4_self_consciousness",
+    "facet_name": "Self-Consciousness",
+    "domain": "N",
+    "text_en": "Am easily intimidated.",
+    "keyed": "+"
+  },
+  {
+    "facet": "N5_immoderation",
+    "facet_name": "Immoderation",
+    "domain": "N",
+    "text_en": "Often eat too much.",
+    "keyed": "+"
+  },
+  {
+    "facet": "N6_vulnerability",
+    "facet_name": "Vulnerability",
+    "domain": "N",
+    "text_en": "Panic easily.",
+    "keyed": "+"
+  },
+  {
+    "facet": "E1_warmth",
+    "facet_name": "Warmth",
+    "domain": "E",
+    "text_en": "Make friends easily.",
+    "keyed": "+"
+  },
+  {
+    "facet": "E2_gregariousness",
+    "facet_name": "Gregariousness",
+    "domain": "E",
+    "text_en": "Love large parties.",
+    "keyed": "+"
+  },
+  {
+    "facet": "E3_assertiveness",
+    "facet_name": "Assertiveness",
+    "domain": "E",
+    "text_en": "Take charge.",
+    "keyed": "+"
+  },
+  {
+    "facet": "E4_activity_level",
+    "facet_name": "Activity Level",
+    "domain": "E",
+    "text_en": "Am always busy.",
+    "keyed": "+"
+  },
+  {
+    "facet": "E5_excitement_seeking",
+    "facet_name": "Excitement-Seeking",
+    "domain": "E",
+    "text_en": "Love excitement.",
+    "keyed": "+"
+  },
+  {
+    "facet": "E6_cheerfulness",
+    "facet_name": "Cheerfulness",
+    "domain": "E",
+    "text_en": "Radiate joy.",
+    "keyed": "+"
+  },
+  {
+    "facet": "O1_imagination",
+    "facet_name": "Imagination",
+    "domain": "O",
+    "text_en": "Have a vivid imagination.",
+    "keyed": "+"
+  },
+  {
+    "facet": "O2_artistic",
+    "facet_name": "Artistic Interests",
+    "domain": "O",
+    "text_en": "Believe in the importance of art.",
+    "keyed": "+"
+  },
+  {
+    "facet": "O3_emotionality",
+    "facet_name": "Emotionality",
+    "domain": "O",
+    "text_en": "Experience my emotions intensely.",
+    "keyed": "+"
+  },
+  {
+    "facet": "O4_adventurousness",
+    "facet_name": "Adventurousness",
+    "domain": "O",
+    "text_en": "Prefer variety to routine.",
+    "keyed": "+"
+  },
+  {
+    "facet": "O5_intellect",
+    "facet_name": "Intellect",
+    "domain": "O",
+    "text_en": "Like to solve complex problems.",
+    "keyed": "+"
+  },
+  {
+    "facet": "O6_liberalism",
+    "facet_name": "Liberalism",
+    "domain": "O",
+    "text_en": "Tend to vote for liberal political candidates.",
+    "keyed": "+"
+  },
+  {
+    "facet": "A1_trust",
+    "facet_name": "Trust",
+    "domain": "A",
+    "text_en": "Trust others.",
+    "keyed": "+"
+  },
+  {
+    "facet": "A2_straightforwardness",
+    "facet_name": "Straightforwardness",
+    "domain": "A",
+    "text_en": "Use flattery to get ahead.",
+    "keyed": "-"
+  },
+  {
+    "facet": "A3_altruism",
+    "facet_name": "Altruism",
+    "domain": "A",
+    "text_en": "Make people feel welcome.",
+    "keyed": "+"
+  },
+  {
+    "facet": "A4_compliance",
+    "facet_name": "Compliance",
+    "domain": "A",
+    "text_en": "Have a sharp tongue.",
+    "keyed": "-"
+  },
+  {
+    "facet": "A5_modesty",
+    "facet_name": "Modesty",
+    "domain": "A",
+    "text_en": "Believe that I am better than others.",
+    "keyed": "-"
+  },
+  {
+    "facet": "A6_sympathy",
+    "facet_name": "Sympathy",
+    "domain": "A",
+    "text_en": "Sympathize with the homeless.",
+    "keyed": "+"
+  },
+  {
+    "facet": "C1_self_efficacy",
+    "facet_name": "Self-Efficacy",
+    "domain": "C",
+    "text_en": "Complete tasks successfully.",
+    "keyed": "+"
+  },
+  {
+    "facet": "C2_orderliness",
+    "facet_name": "Orderliness",
+    "domain": "C",
+    "text_en": "Like order.",
+    "keyed": "+"
+  },
+  {
+    "facet": "C3_dutifulness",
+    "facet_name": "Dutifulness",
+    "domain": "C",
+    "text_en": "Try to follow the rules.",
+    "keyed": "+"
+  },
+  {
+    "facet": "C4_achievement_striving",
+    "facet_name": "Achievement-Striving",
+    "domain": "C",
+    "text_en": "Go straight for the goal.",
+    "keyed": "+"
+  },
+  {
+    "facet": "C5_self_discipline",
+    "facet_name": "Self-Discipline",
+    "domain": "C",
+    "text_en": "Get chores done right away.",
+    "keyed": "+"
+  },
+  {
+    "facet": "C6_cautiousness",
+    "facet_name": "Cautiousness",
+    "domain": "C",
+    "text_en": "Jump into things without thinking.",
+    "keyed": "-"
+  },
+  {
+    "facet": "N1_anxiety",
+    "facet_name": "Anxiety",
+    "domain": "N",
+    "text_en": "Fear for the worst.",
+    "keyed": "+"
+  },
+  {
+    "facet": "N2_anger",
+    "facet_name": "Anger",
+    "domain": "N",
+    "text_en": "Get irritated easily.",
+    "keyed": "+"
+  },
+  {
+    "facet": "N3_depression",
+    "facet_name": "Depression",
+    "domain": "N",
+    "text_en": "Dislike myself.",
+    "keyed": "+"
+  },
+  {
+    "facet": "N4_self_consciousness",
+    "facet_name": "Self-Consciousness",
+    "domain": "N",
+    "text_en": "Am afraid that I will do the wrong thing.",
+    "keyed": "+"
+  },
+  {
+    "facet": "N5_immoderation",
+    "facet_name": "Immoderation",
+    "domain": "N",
+    "text_en": "Rarely overindulge.",
+    "keyed": "-"
+  },
+  {
+    "facet": "N6_vulnerability",
+    "facet_name": "Vulnerability",
+    "domain": "N",
+    "text_en": "Become overwhelmed by events.",
+    "keyed": "+"
+  },
+  {
+    "facet": "E1_warmth",
+    "facet_name": "Warmth",
+    "domain": "E",
+    "text_en": "Warm up quickly to others.",
+    "keyed": "+"
+  },
+  {
+    "facet": "E2_gregariousness",
+    "facet_name": "Gregariousness",
+    "domain": "E",
+    "text_en": "Talk to a lot of different people at parties.",
+    "keyed": "+"
+  },
+  {
+    "facet": "E3_assertiveness",
+    "facet_name": "Assertiveness",
+    "domain": "E",
+    "text_en": "Try to lead others.",
+    "keyed": "+"
+  },
+  {
+    "facet": "E4_activity_level",
+    "facet_name": "Activity Level",
+    "domain": "E",
+    "text_en": "Am always on the go.",
+    "keyed": "+"
+  },
+  {
+    "facet": "E5_excitement_seeking",
+    "facet_name": "Excitement-Seeking",
+    "domain": "E",
+    "text_en": "Seek adventure.",
+    "keyed": "+"
+  },
+  {
+    "facet": "E6_cheerfulness",
+    "facet_name": "Cheerfulness",
+    "domain": "E",
+    "text_en": "Have a lot of fun.",
+    "keyed": "+"
+  },
+  {
+    "facet": "O1_imagination",
+    "facet_name": "Imagination",
+    "domain": "O",
+    "text_en": "Enjoy wild flights of fantasy.",
+    "keyed": "+"
+  },
+  {
+    "facet": "O2_artistic",
+    "facet_name": "Artistic Interests",
+    "domain": "O",
+    "text_en": "Like music.",
+    "keyed": "+"
+  },
+  {
+    "facet": "O3_emotionality",
+    "facet_name": "Emotionality",
+    "domain": "O",
+    "text_en": "Feel others' emotions.",
+    "keyed": "+"
+  },
+  {
+    "facet": "O4_adventurousness",
+    "facet_name": "Adventurousness",
+    "domain": "O",
+    "text_en": "Prefer to stick with things that I know.",
+    "keyed": "-"
+  },
+  {
+    "facet": "O5_intellect",
+    "facet_name": "Intellect",
+    "domain": "O",
+    "text_en": "Am not interested in abstract ideas.",
+    "keyed": "-"
+  },
+  {
+    "facet": "O6_liberalism",
+    "facet_name": "Liberalism",
+    "domain": "O",
+    "text_en": "Believe that there is no absolute right and wrong.",
+    "keyed": "+"
+  },
+  {
+    "facet": "A1_trust",
+    "facet_name": "Trust",
+    "domain": "A",
+    "text_en": "Believe that others have good intentions.",
+    "keyed": "+"
+  },
+  {
+    "facet": "A2_straightforwardness",
+    "facet_name": "Straightforwardness",
+    "domain": "A",
+    "text_en": "Use others for my own ends.",
+    "keyed": "-"
+  },
+  {
+    "facet": "A3_altruism",
+    "facet_name": "Altruism",
+    "domain": "A",
+    "text_en": "Anticipate the needs of others.",
+    "keyed": "+"
+  },
+  {
+    "facet": "A4_compliance",
+    "facet_name": "Compliance",
+    "domain": "A",
+    "text_en": "Contradict others.",
+    "keyed": "-"
+  },
+  {
+    "facet": "A5_modesty",
+    "facet_name": "Modesty",
+    "domain": "A",
+    "text_en": "Think highly of myself.",
+    "keyed": "-"
+  },
+  {
+    "facet": "A6_sympathy",
+    "facet_name": "Sympathy",
+    "domain": "A",
+    "text_en": "Feel sympathy for those who are worse off than myself.",
+    "keyed": "+"
+  },
+  {
+    "facet": "C1_self_efficacy",
+    "facet_name": "Self-Efficacy",
+    "domain": "C",
+    "text_en": "Excel in what I do.",
+    "keyed": "+"
+  },
+  {
+    "facet": "C2_orderliness",
+    "facet_name": "Orderliness",
+    "domain": "C",
+    "text_en": "Often forget to put things back in their proper place.",
+    "keyed": "-"
+  },
+  {
+    "facet": "C3_dutifulness",
+    "facet_name": "Dutifulness",
+    "domain": "C",
+    "text_en": "Keep my promises.",
+    "keyed": "+"
+  },
+  {
+    "facet": "C4_achievement_striving",
+    "facet_name": "Achievement-Striving",
+    "domain": "C",
+    "text_en": "Work hard.",
+    "keyed": "+"
+  },
+  {
+    "facet": "C5_self_discipline",
+    "facet_name": "Self-Discipline",
+    "domain": "C",
+    "text_en": "Am always prepared.",
+    "keyed": "+"
+  },
+  {
+    "facet": "C6_cautiousness",
+    "facet_name": "Cautiousness",
+    "domain": "C",
+    "text_en": "Make rash decisions.",
+    "keyed": "-"
+  },
+  {
+    "facet": "N1_anxiety",
+    "facet_name": "Anxiety",
+    "domain": "N",
+    "text_en": "Am afraid of many things.",
+    "keyed": "+"
+  },
+  {
+    "facet": "N2_anger",
+    "facet_name": "Anger",
+    "domain": "N",
+    "text_en": "Get upset easily.",
+    "keyed": "+"
+  },
+  {
+    "facet": "N3_depression",
+    "facet_name": "Depression",
+    "domain": "N",
+    "text_en": "Am often down in the dumps.",
+    "keyed": "+"
+  },
+  {
+    "facet": "N4_self_consciousness",
+    "facet_name": "Self-Consciousness",
+    "domain": "N",
+    "text_en": "Find it difficult to approach others.",
+    "keyed": "+"
+  },
+  {
+    "facet": "N5_immoderation",
+    "facet_name": "Immoderation",
+    "domain": "N",
+    "text_en": "Easily resist temptations.",
+    "keyed": "-"
+  },
+  {
+    "facet": "N6_vulnerability",
+    "facet_name": "Vulnerability",
+    "domain": "N",
+    "text_en": "Feel that I'm unable to deal with things.",
+    "keyed": "+"
+  },
+  {
+    "facet": "E1_warmth",
+    "facet_name": "Warmth",
+    "domain": "E",
+    "text_en": "Am hard to get to know.",
+    "keyed": "-"
+  },
+  {
+    "facet": "E2_gregariousness",
+    "facet_name": "Gregariousness",
+    "domain": "E",
+    "text_en": "Prefer to be alone.",
+    "keyed": "-"
+  },
+  {
+    "facet": "E3_assertiveness",
+    "facet_name": "Assertiveness",
+    "domain": "E",
+    "text_en": "Can talk others into doing things.",
+    "keyed": "+"
+  },
+  {
+    "facet": "E4_activity_level",
+    "facet_name": "Activity Level",
+    "domain": "E",
+    "text_en": "Do a lot in my spare time.",
+    "keyed": "+"
+  },
+  {
+    "facet": "E5_excitement_seeking",
+    "facet_name": "Excitement-Seeking",
+    "domain": "E",
+    "text_en": "Love action.",
+    "keyed": "+"
+  },
+  {
+    "facet": "E6_cheerfulness",
+    "facet_name": "Cheerfulness",
+    "domain": "E",
+    "text_en": "Express childlike joy.",
+    "keyed": "+"
+  },
+  {
+    "facet": "O1_imagination",
+    "facet_name": "Imagination",
+    "domain": "O",
+    "text_en": "Love to daydream.",
+    "keyed": "+"
+  },
+  {
+    "facet": "O2_artistic",
+    "facet_name": "Artistic Interests",
+    "domain": "O",
+    "text_en": "Do not like art.",
+    "keyed": "-"
+  },
+  {
+    "facet": "O3_emotionality",
+    "facet_name": "Emotionality",
+    "domain": "O",
+    "text_en": "Seldom get emotional.",
+    "keyed": "-"
+  },
+  {
+    "facet": "O4_adventurousness",
+    "facet_name": "Adventurousness",
+    "domain": "O",
+    "text_en": "Dislike changes.",
+    "keyed": "-"
+  },
+  {
+    "facet": "O5_intellect",
+    "facet_name": "Intellect",
+    "domain": "O",
+    "text_en": "Avoid philosophical discussions.",
+    "keyed": "-"
+  },
+  {
+    "facet": "O6_liberalism",
+    "facet_name": "Liberalism",
+    "domain": "O",
+    "text_en": "Believe in one true religion.",
+    "keyed": "-"
+  },
+  {
+    "facet": "A1_trust",
+    "facet_name": "Trust",
+    "domain": "A",
+    "text_en": "Trust what people say.",
+    "keyed": "+"
+  },
+  {
+    "facet": "A2_straightforwardness",
+    "facet_name": "Straightforwardness",
+    "domain": "A",
+    "text_en": "Know how to get around the rules.",
+    "keyed": "-"
+  },
+  {
+    "facet": "A3_altruism",
+    "facet_name": "Altruism",
+    "domain": "A",
+    "text_en": "Look down on others.",
+    "keyed": "-"
+  },
+  {
+    "facet": "A4_compliance",
+    "facet_name": "Compliance",
+    "domain": "A",
+    "text_en": "Love a good fight.",
+    "keyed": "-"
+  },
+  {
+    "facet": "A5_modesty",
+    "facet_name": "Modesty",
+    "domain": "A",
+    "text_en": "Have a high opinion of myself.",
+    "keyed": "-"
+  },
+  {
+    "facet": "A6_sympathy",
+    "facet_name": "Sympathy",
+    "domain": "A",
+    "text_en": "Am not interested in other people's problems.",
+    "keyed": "-"
+  },
+  {
+    "facet": "C1_self_efficacy",
+    "facet_name": "Self-Efficacy",
+    "domain": "C",
+    "text_en": "Handle tasks smoothly.",
+    "keyed": "+"
+  },
+  {
+    "facet": "C2_orderliness",
+    "facet_name": "Orderliness",
+    "domain": "C",
+    "text_en": "Leave a mess in my room.",
+    "keyed": "-"
+  },
+  {
+    "facet": "C3_dutifulness",
+    "facet_name": "Dutifulness",
+    "domain": "C",
+    "text_en": "Break rules.",
+    "keyed": "-"
+  },
+  {
+    "facet": "C4_achievement_striving",
+    "facet_name": "Achievement-Striving",
+    "domain": "C",
+    "text_en": "Am not highly motivated to succeed.",
+    "keyed": "-"
+  },
+  {
+    "facet": "C5_self_discipline",
+    "facet_name": "Self-Discipline",
+    "domain": "C",
+    "text_en": "Find it difficult to get down to work.",
+    "keyed": "-"
+  },
+  {
+    "facet": "C6_cautiousness",
+    "facet_name": "Cautiousness",
+    "domain": "C",
+    "text_en": "Like to act on a whim.",
+    "keyed": "-"
+  },
+  {
+    "facet": "N1_anxiety",
+    "facet_name": "Anxiety",
+    "domain": "N",
+    "text_en": "Get stressed out easily.",
+    "keyed": "+"
+  },
+  {
+    "facet": "N2_anger",
+    "facet_name": "Anger",
+    "domain": "N",
+    "text_en": "Rarely get irritated.",
+    "keyed": "-"
+  },
+  {
+    "facet": "N3_depression",
+    "facet_name": "Depression",
+    "domain": "N",
+    "text_en": "Seldom feel blue.",
+    "keyed": "-"
+  },
+  {
+    "facet": "N4_self_consciousness",
+    "facet_name": "Self-Consciousness",
+    "domain": "N",
+    "text_en": "Am not embarrassed easily.",
+    "keyed": "-"
+  },
+  {
+    "facet": "N5_immoderation",
+    "facet_name": "Immoderation",
+    "domain": "N",
+    "text_en": "Am able to control my cravings.",
+    "keyed": "-"
+  },
+  {
+    "facet": "N6_vulnerability",
+    "facet_name": "Vulnerability",
+    "domain": "N",
+    "text_en": "Remain calm under pressure.",
+    "keyed": "-"
+  },
+  {
+    "facet": "E1_warmth",
+    "facet_name": "Warmth",
+    "domain": "E",
+    "text_en": "Often feel uncomfortable around others.",
+    "keyed": "-"
+  },
+  {
+    "facet": "E2_gregariousness",
+    "facet_name": "Gregariousness",
+    "domain": "E",
+    "text_en": "Want to be left alone.",
+    "keyed": "-"
+  },
+  {
+    "facet": "E3_assertiveness",
+    "facet_name": "Assertiveness",
+    "domain": "E",
+    "text_en": "Wait for others to lead the way.",
+    "keyed": "-"
+  },
+  {
+    "facet": "E4_activity_level",
+    "facet_name": "Activity Level",
+    "domain": "E",
+    "text_en": "Like to take it easy.",
+    "keyed": "-"
+  },
+  {
+    "facet": "E5_excitement_seeking",
+    "facet_name": "Excitement-Seeking",
+    "domain": "E",
+    "text_en": "Enjoy being part of a loud crowd.",
+    "keyed": "+"
+  },
+  {
+    "facet": "E6_cheerfulness",
+    "facet_name": "Cheerfulness",
+    "domain": "E",
+    "text_en": "Laugh my way through life.",
+    "keyed": "+"
+  },
+  {
+    "facet": "O1_imagination",
+    "facet_name": "Imagination",
+    "domain": "O",
+    "text_en": "Like to get lost in thought.",
+    "keyed": "+"
+  },
+  {
+    "facet": "O2_artistic",
+    "facet_name": "Artistic Interests",
+    "domain": "O",
+    "text_en": "Do not like poetry.",
+    "keyed": "-"
+  },
+  {
+    "facet": "O3_emotionality",
+    "facet_name": "Emotionality",
+    "domain": "O",
+    "text_en": "Am not easily affected by my emotions.",
+    "keyed": "-"
+  },
+  {
+    "facet": "O4_adventurousness",
+    "facet_name": "Adventurousness",
+    "domain": "O",
+    "text_en": "Don't like the idea of change.",
+    "keyed": "-"
+  },
+  {
+    "facet": "O5_intellect",
+    "facet_name": "Intellect",
+    "domain": "O",
+    "text_en": "Have difficulty understanding abstract ideas.",
+    "keyed": "-"
+  },
+  {
+    "facet": "O6_liberalism",
+    "facet_name": "Liberalism",
+    "domain": "O",
+    "text_en": "Tend to vote for conservative political candidates.",
+    "keyed": "-"
+  },
+  {
+    "facet": "A1_trust",
+    "facet_name": "Trust",
+    "domain": "A",
+    "text_en": "Distrust people.",
+    "keyed": "-"
+  },
+  {
+    "facet": "A2_straightforwardness",
+    "facet_name": "Straightforwardness",
+    "domain": "A",
+    "text_en": "Cheat to get ahead.",
+    "keyed": "-"
+  },
+  {
+    "facet": "A3_altruism",
+    "facet_name": "Altruism",
+    "domain": "A",
+    "text_en": "Am indifferent to the feelings of others.",
+    "keyed": "-"
+  },
+  {
+    "facet": "A4_compliance",
+    "facet_name": "Compliance",
+    "domain": "A",
+    "text_en": "Yell at people.",
+    "keyed": "-"
+  },
+  {
+    "facet": "A5_modesty",
+    "facet_name": "Modesty",
+    "domain": "A",
+    "text_en": "Know the answers to many questions.",
+    "keyed": "-"
+  },
+  {
+    "facet": "A6_sympathy",
+    "facet_name": "Sympathy",
+    "domain": "A",
+    "text_en": "Tend to dislike soft-hearted people.",
+    "keyed": "-"
+  },
+  {
+    "facet": "C1_self_efficacy",
+    "facet_name": "Self-Efficacy",
+    "domain": "C",
+    "text_en": "Am sure of my ground.",
+    "keyed": "+"
+  },
+  {
+    "facet": "C2_orderliness",
+    "facet_name": "Orderliness",
+    "domain": "C",
+    "text_en": "Leave my belongings around.",
+    "keyed": "-"
+  },
+  {
+    "facet": "C3_dutifulness",
+    "facet_name": "Dutifulness",
+    "domain": "C",
+    "text_en": "Break my promises.",
+    "keyed": "-"
+  },
+  {
+    "facet": "C4_achievement_striving",
+    "facet_name": "Achievement-Striving",
+    "domain": "C",
+    "text_en": "Do just enough work to get by.",
+    "keyed": "-"
+  },
+  {
+    "facet": "C5_self_discipline",
+    "facet_name": "Self-Discipline",
+    "domain": "C",
+    "text_en": "Waste my time.",
+    "keyed": "-"
+  },
+  {
+    "facet": "C6_cautiousness",
+    "facet_name": "Cautiousness",
+    "domain": "C",
+    "text_en": "Rush into things.",
+    "keyed": "-"
+  }
+]

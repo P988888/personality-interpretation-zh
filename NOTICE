@@ -1,0 +1,49 @@
+personality —— 人格测评解读模型
+Copyright 2026 <你的名字或组织>
+
+本产品包含由 Qwen 开发的软件/模型。
+
+================================================================
+基于 Qwen2.5-7B-Instruct 的衍生模型声明
+================================================================
+
+Base model : Qwen/Qwen2.5-7B-Instruct
+Copyright  : Copyright (c) Alibaba Cloud. All rights reserved.
+License    : Apache License, Version 2.0
+Source     : https://huggingface.co/Qwen/Qwen2.5-7B-Instruct
+
+许可全文见本仓库 LICENSE 文件。
+本仓库中对基座模型的修改如下（Apache-2.0 第 4(b) 条要求声明）：
+
+  在 Qwen2.5-7B-Instruct 之上使用 LoRA（rank=32, alpha=64,
+  lora_target=all）做了监督微调（SFT），可训练参数 80.7M，
+  训练数据为自建的人格测评解读数据集（1,579 条，见 data/curated/）。
+  基座权重被冻结，未做全参微调。
+
+  LoRA adapter 以独立权重形式发布；合并权重可由
+  training/configs/merge_qwen7b.yaml 从基座 + adapter 复现。
+
+================================================================
+测评题目来源
+================================================================
+
+IPIP-NEO 英文题目来自 International Personality Item Pool (IPIP)，
+由 Lewis R. Goldberg 建置于公共领域，可自由使用：
+  https://ipip.ori.org/newNEOFacetsKey.htm
+
+中文译法由本项目自建。
+
+本项目未使用任何受版权保护的测评题目。特别地，MBTI 官方题目
+（版权归 The Myers-Briggs Company）在本项目中完全未被使用。
+
+================================================================
+商标声明
+================================================================
+
+MBTI is a registered trademark of The Myers-Briggs Company.
+
+本项目与 The Myers-Briggs Company 无任何关联，未获其赞助或背书。
+本项目输出的 MBTI 结果由 IPIP-NEO-120 作答经构念映射导出，
+不是 Myers-Briggs 官方测评结果。
+
+Qwen 是阿里巴巴集团的商标。本项目与阿里巴巴集团无隶属关系。

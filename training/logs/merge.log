@@ -1,0 +1,44 @@
+[20:49:27] 守护启动，等待训练结束…
+[21:13:07] 训练进程已退出
+[21:13:07] 训练产物：
+total 331096
+drwxr-xr-x 4 root root      4096 Oct 15 21:12 .
+drwxr-xr-x 4 root root        41 Oct 15 20:11 ..
+-rw-r--r-- 1 root root      2008 Oct 15 21:12 README.md
+-rw-r--r-- 1 root root      1259 Oct 15 21:12 adapter_config.json
+-rw------- 1 root root 323014168 Oct 15 21:12 adapter_model.safetensors
+-rw-r--r-- 1 root root       605 Oct 15 21:12 added_tokens.json
+-rw-r--r-- 1 root root       344 Oct 15 21:12 all_results.json
+-rw-r--r-- 1 root root      2507 Oct 15 21:12 chat_template.jinja
+drwxr-xr-x 2 root root      4096 Oct 15 20:57 checkpoint-200
+drwxr-xr-x 2 root root      4096 Oct 15 21:12 checkpoint-267
+-rw-r--r-- 1 root root       157 Oct 15 21:12 eval_results.json
+-rw-r--r-- 1 root root   1671853 Oct 15 21:12 merges.txt
+-rw-r--r-- 1 root root       613 Oct 15 21:12 special_tokens_map.json
+-rw-r--r-- 1 root root  11421896 Oct 15 21:12 tokenizer.json
+-rw-r--r-- 1 root root      4713 Oct 15 21:12 tokenizer_config.json
+-rw-r--r-- 1 root root       207 Oct 15 21:12 train_results.json
+-rw-r--r-- 1 root root      5522 Oct 15 21:12 trainer_log.jsonl
+-rw-r--r-- 1 root root      5985 Oct 15 21:12 trainer_state.json
+-rw-r--r-- 1 root root      6417 Oct 15 21:12 training_args.bin
+-rw-r--r-- 1 root root     36551 Oct 15 21:12 training_eval_loss.png
+-rw-r--r-- 1 root root     33625 Oct 15 21:12 training_loss.png
+-rw-r--r-- 1 root root   2776833 Oct 15 21:12 vocab.json
+[21:13:08] 开始合并（CPU，约几分钟）…
+Traceback (most recent call last):
+  File "/data/miniconda/envs/torch/bin/llamafactory-cli", line 6, in <module>
+    sys.exit(main())
+             ^^^^^^
+  File "/data/miniconda/envs/torch/lib/python3.12/site-packages/llamafactory/cli.py", line 17, in main
+    from .extras.misc import is_env_enabled
+  File "/data/miniconda/envs/torch/lib/python3.12/site-packages/llamafactory/extras/misc.py", line 25, in <module>
+    import transformers.dynamic_module_utils
+  File "/data/miniconda/envs/torch/lib/python3.12/site-packages/transformers/__init__.py", line 795, in <module>
+    sys.modules[__name__] = _LazyModule(
+                            ^^^^^^^^^^^^
+  File "/data/miniconda/envs/torch/lib/python3.12/site-packages/transformers/utils/import_utils.py", line 2105, in __init__
+    raise ValueError(
+ValueError: Backend should be defined in the BACKENDS_MAPPING. Offending backend: tensorflow_text
+[21:13:12] 合并命令返回 rc=1
+[21:13:12] 合并产物：
+[21:13:12] 全部完成

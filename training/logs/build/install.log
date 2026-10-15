@@ -1,0 +1,24 @@
+开始安装 LLaMA-Factory Thu Oct 15 19:02:19 CST 2026
+Successfully installed pip-26.2.1
+WARNING: Running pip as the 'root' user can result in broken permissions and conflicting behaviour with the system package manager, possibly rendering your system unusable. It is recommended to use a virtual environment instead: https://pip.pypa.io/warnings/venv. Use the --root-user-action option if you know what you are doing and want to suppress this warning.
+      Successfully uninstalled typing_extensions-4.16.0
+  Attempting uninstall: pillow
+    Found existing installation: pillow 11.3.0
+    Uninstalling pillow-11.3.0:
+      Successfully uninstalled pillow-11.3.0
+  Attempting uninstall: fsspec
+    Found existing installation: fsspec 2025.3.0
+    Uninstalling fsspec-2025.3.0:
+      Successfully uninstalled fsspec-2025.3.0
+  Attempting uninstall: click
+    Found existing installation: click 8.5.0
+    Uninstalling click-8.5.0:
+      Successfully uninstalled click-8.5.0
+  Attempting uninstall: pandas
+    Found existing installation: pandas 2.3.3
+    Uninstalling pandas-2.3.3:
+      Successfully uninstalled pandas-2.3.3
+
+Successfully installed accelerate-1.11.0 aiofiles-24.1.0 aiohappyeyeballs-2.7.1 aiohttp-3.14.5 aiosignal-1.4.0 annotated-doc-0.0.5 annotated-types-0.8.0 anyio-4.15.1 av-16.0.0 brotli-1.2.0 cffi-2.1.1 click-8.5.0 cryptography-50.0.2 datasets-4.0.0 dill-0.3.8 docstring-parser-0.18.0 einops-0.8.2 fastapi-0.143.0 ffmpy-1.0.0 fire-0.7.1 frozenlist-1.8.0 fsspec-2025.3.0 gradio-5.50.0 gradio-client-1.14.0 groovy-0.1.2 hf-transfer-0.1.9 hf-xet-1.7.0 httpcore-1.0.9 httpx-0.28.1 huggingface_hub-1.33.0 llamafactory-0.9.5 markdown-it-py-4.2.0 mdurl-0.1.2 modelscope-1.40.2 modelscope-hub-0.4.6 multidict-7.1.0 multiprocess-0.70.16 omegaconf-2.4.0 opentelemetry-api-1.45.1 orjson-3.13.0 pandas-2.3.3 peft-0.18.1 pillow-11.3.0 propcache-0.5.4 protobuf-7.36.2 pyarrow-26.0.0 pycparser-3.11 pydantic-2.12.3 pydantic-core-2.41.4 pydub-0.25.1 python-multipart-0.0.32 pytz-2026.5 pyyaml-6.0.3 regex-2026.9.29 rich-15.0.0 ruff-0.17.0 safehttpx-0.1.7 safetensors-0.8.0 semantic-version-2.10.0 sentencepiece-0.2.2 shellingham-1.5.4 shtab-1.12.1 sse-starlette-3.5.0 starlette-0.52.1 termcolor-3.3.0 tiktoken-0.14.0 tokenizers-0.22.2 tomlkit-0.13.3 torchdata-0.11.0 transformers-4.56.2 trl-0.24.0 typer-0.27.3 typing-extensions-4.16.0 typing-inspection-0.4.4 tyro-0.8.14 tzdata-2026.5 uvicorn-0.54.0 websockets-15.0.1 xxhash-4.0.1 yarl-1.25.1
+WARNING: Running pip as the 'root' user can result in broken permissions and conflicting behaviour with the system package manager, possibly rendering your system unusable. It is recommended to use a virtual environment instead: https://pip.pypa.io/warnings/venv. Use the --root-user-action option if you know what you are doing and want to suppress this warning.
+/tmp/task.sh: line 17: unexpected EOF while looking for matching `''

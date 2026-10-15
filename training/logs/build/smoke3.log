@@ -1,0 +1,117 @@
+模型: /data/hf_cache/hub/models--Qwen--Qwen2.5-7B-Instruct/snapshots/a09a35458c702b33eeacc393d103063234e8bc28
+开始 19:57:38
+冒烟配置已生成
+
+/data/miniconda/envs/torch/lib/python3.12/site-packages/jieba/_compat.py:18: UserWarning: pkg_resources is deprecated as an API. See https://setuptools.pypa.io/en/latest/pkg_resources.html. The pkg_resources package is slated for removal as early as 2025-11-30. Refrain from using this package or pin to Setuptools<81.
+  import pkg_resources
+[INFO|2026-10-15 19:57:45] llamafactory.hparams.parser:523 >> Process rank: 0, world size: 1, device: cuda:0, distributed training: False, compute dtype: torch.bfloat16
+[INFO|tokenization_utils_base.py:2066] 2026-10-15 19:57:45,639 >> loading file vocab.json
+[INFO|tokenization_utils_base.py:2066] 2026-10-15 19:57:45,639 >> loading file merges.txt
+[INFO|tokenization_utils_base.py:2066] 2026-10-15 19:57:45,639 >> loading file tokenizer.json
+[INFO|tokenization_utils_base.py:2066] 2026-10-15 19:57:45,639 >> loading file added_tokens.json
+[INFO|tokenization_utils_base.py:2066] 2026-10-15 19:57:45,639 >> loading file special_tokens_map.json
+[INFO|tokenization_utils_base.py:2066] 2026-10-15 19:57:45,639 >> loading file tokenizer_config.json
+[INFO|tokenization_utils_base.py:2066] 2026-10-15 19:57:45,639 >> loading file chat_template.jinja
+[INFO|tokenization_utils_base.py:2337] 2026-10-15 19:57:45,987 >> Special tokens have been added in the vocabulary, make sure the associated word embeddings are fine-tuned or trained.
+[INFO|configuration_utils.py:763] 2026-10-15 19:57:45,987 >> loading configuration file /data/hf_cache/hub/models--Qwen--Qwen2.5-7B-Instruct/snapshots/a09a35458c702b33eeacc393d103063234e8bc28/config.json
+[INFO|configuration_utils.py:839] 2026-10-15 19:57:45,989 >> Model config Qwen2Config {
+  "architectures": [
+    "Qwen2ForCausalLM"
+  ],
+  "attention_dropout": 0.0,
+  "bos_token_id": 151643,
+  "dtype": "bfloat16",
+  "eos_token_id": 151645,
+  "hidden_act": "silu",
+  "hidden_size": 3584,
+  "initializer_range": 0.02,
+  "intermediate_size": 18944,
+  "layer_types": [
+    "full_attention",
+    "full_attention",
+    "full_attention",
+    "full_attention",
+    "full_attention",
+    "full_attention",
+    "full_attention",
+    "full_attention",
+    "full_attention",
+    "full_attention",
+    "full_attention",
+    "full_attention",
+    "full_attention",
+    "full_attention",
+    "full_attention",
+    "full_attention",
+    "full_attention",
+    "full_attention",
+    "full_attention",
+    "full_attention",
+    "full_attention",
+    "full_attention",
+    "full_attention",
+    "full_attention",
+    "full_attention",
+    "full_attention",
+    "full_attention",
+    "full_attention"
+  ],
+  "max_position_embeddings": 32768,
+  "max_window_layers": 28,
+  "model_type": "qwen2",
+  "num_attention_heads": 28,
+  "num_hidden_layers": 28,
+  "num_key_value_heads": 4,
+  "rms_norm_eps": 1e-06,
+  "rope_scaling": null,
+  "rope_theta": 1000000.0,
+  "sliding_window": null,
+  "tie_word_embeddings": false,
+  "transformers_version": "4.56.2",
+  "use_cache": true,
+  "use_sliding_window": false,
+  "vocab_size": 152064
+}
+
+[INFO|tokenization_utils_base.py:2066] 2026-10-15 19:57:45,990 >> loading file vocab.json
+[INFO|tokenization_utils_base.py:2066] 2026-10-15 19:57:45,990 >> loading file merges.txt
+[INFO|tokenization_utils_base.py:2066] 2026-10-15 19:57:45,990 >> loading file tokenizer.json
+[INFO|tokenization_utils_base.py:2066] 2026-10-15 19:57:45,990 >> loading file added_tokens.json
+[INFO|tokenization_utils_base.py:2066] 2026-10-15 19:57:45,990 >> loading file special_tokens_map.json
+[INFO|tokenization_utils_base.py:2066] 2026-10-15 19:57:45,990 >> loading file tokenizer_config.json
+[INFO|tokenization_utils_base.py:2066] 2026-10-15 19:57:45,990 >> loading file chat_template.jinja
+[INFO|tokenization_utils_base.py:2337] 2026-10-15 19:57:46,322 >> Special tokens have been added in the vocabulary, make sure the associated word embeddings are fine-tuned or trained.
+Traceback (most recent call last):
+  File "/data/miniconda/envs/torch/lib/python3.12/site-packages/llamafactory/data/parser.py", line 109, in get_dataset_list
+    with open(config_path) as f:
+         ^^^^^^^^^^^^^^^^^
+FileNotFoundError: [Errno 2] No such file or directory: 'data/dataset_info.json'
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "/data/miniconda/envs/torch/bin/llamafactory-cli", line 6, in <module>
+    sys.exit(main())
+             ^^^^^^
+  File "/data/miniconda/envs/torch/lib/python3.12/site-packages/llamafactory/cli.py", line 24, in main
+    launcher.launch()
+  File "/data/miniconda/envs/torch/lib/python3.12/site-packages/llamafactory/launcher.py", line 157, in launch
+    run_exp()
+  File "/data/miniconda/envs/torch/lib/python3.12/site-packages/llamafactory/train/tuner.py", line 149, in run_exp
+    _training_function(config={"args": args, "callbacks": callbacks})
+  File "/data/miniconda/envs/torch/lib/python3.12/site-packages/llamafactory/train/tuner.py", line 117, in _training_function
+    run_sft(model_args, data_args, training_args, finetuning_args, generating_args, callbacks)
+  File "/data/miniconda/envs/torch/lib/python3.12/site-packages/llamafactory/train/sft/workflow.py", line 52, in run_sft
+    dataset_module = get_dataset(template, model_args, data_args, training_args, stage="sft", **tokenizer_module)
+                     ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/data/miniconda/envs/torch/lib/python3.12/site-packages/llamafactory/data/loader.py", line 303, in get_dataset
+    dataset = _get_merged_dataset(data_args.dataset, model_args, data_args, training_args, stage)
+              ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/data/miniconda/envs/torch/lib/python3.12/site-packages/llamafactory/data/loader.py", line 177, in _get_merged_dataset
+    for dataset_name, dataset_attr in zip(dataset_names, get_dataset_list(dataset_names, data_args.dataset_dir)):
+                                                         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/data/miniconda/envs/torch/lib/python3.12/site-packages/llamafactory/data/parser.py", line 113, in get_dataset_list
+    raise ValueError(f"Cannot open {config_path} due to {str(err)}.")
+ValueError: Cannot open data/dataset_info.json due to [Errno 2] No such file or directory: 'data/dataset_info.json'.
+
+=== 结束 19:57:47 ===

@@ -1,0 +1,37 @@
+开始下载 Qwen2.5-7B-Instruct 19:30:00
+镜像: https://hf-mirror.com
+
+Traceback (most recent call last):
+  File "/data/miniconda/envs/torch/lib/python3.12/site-packages/huggingface_hub/file_download.py", line 474, in http_get
+    hf_transfer.download(
+Exception: Failed too many failures in parallel (3): Request: error decoding response body (no permits available)
+
+The above exception was the direct cause of the following exception:
+
+Traceback (most recent call last):
+  File "<stdin>", line 7, in <module>
+  File "/data/miniconda/envs/torch/lib/python3.12/site-packages/huggingface_hub/utils/_validators.py", line 114, in _inner_fn
+    return fn(*args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^
+  File "/data/miniconda/envs/torch/lib/python3.12/site-packages/huggingface_hub/_snapshot_download.py", line 330, in snapshot_download
+    _inner_hf_hub_download(file)
+  File "/data/miniconda/envs/torch/lib/python3.12/site-packages/huggingface_hub/_snapshot_download.py", line 306, in _inner_hf_hub_download
+    return hf_hub_download(
+           ^^^^^^^^^^^^^^^^
+  File "/data/miniconda/envs/torch/lib/python3.12/site-packages/huggingface_hub/utils/_validators.py", line 114, in _inner_fn
+    return fn(*args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^
+  File "/data/miniconda/envs/torch/lib/python3.12/site-packages/huggingface_hub/file_download.py", line 1014, in hf_hub_download
+    return _hf_hub_download_to_cache_dir(
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/data/miniconda/envs/torch/lib/python3.12/site-packages/huggingface_hub/file_download.py", line 1175, in _hf_hub_download_to_cache_dir
+    _download_to_tmp_and_move(
+  File "/data/miniconda/envs/torch/lib/python3.12/site-packages/huggingface_hub/file_download.py", line 1742, in _download_to_tmp_and_move
+    http_get(
+  File "/data/miniconda/envs/torch/lib/python3.12/site-packages/huggingface_hub/file_download.py", line 485, in http_get
+    raise RuntimeError(
+RuntimeError: An error occurred while downloading using `hf_transfer`. Consider disabling HF_HUB_ENABLE_HF_TRANSFER for better error handling.
+
+=== 下载结束 19:37:45 ===
+3.7G	/data/hf_cache/hub
+76 /data/hf_cache/hub/models--Qwen--Qwen2.5-7B-Instruct/snapshots/a09a35458c702b33eeacc393d103063234e8bc28/model-00001-of-00004.safetensors

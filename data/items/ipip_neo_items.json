@@ -1,0 +1,601 @@
+{
+  "N1_anxiety": {
+    "code": "N1",
+    "ipip_name": "Anxiety",
+    "slug": "N1_anxiety",
+    "name": "Anxiety",
+    "plus": [
+      "Worry about things.",
+      "Fear for the worst.",
+      "Am afraid of many things.",
+      "Get stressed out easily.",
+      "Get caught up in my problems."
+    ],
+    "minus": [
+      "Am not easily bothered by things.",
+      "Am relaxed most of the time.",
+      "Am not easily disturbed by events.",
+      "Don't worry about things that have already happened.",
+      "Adapt easily to new situations."
+    ]
+  },
+  "N2_anger": {
+    "code": "N2",
+    "ipip_name": "Anger",
+    "slug": "N2_anger",
+    "name": "Anger",
+    "plus": [
+      "Get angry easily.",
+      "Get irritated easily.",
+      "Get upset easily.",
+      "Am often in a bad mood.",
+      "Lose my temper."
+    ],
+    "minus": [
+      "Rarely get irritated.",
+      "Seldom get mad.",
+      "Am not easily annoyed.",
+      "Keep my cool.",
+      "Rarely complain."
+    ]
+  },
+  "N3_depression": {
+    "code": "N3",
+    "ipip_name": "Depression",
+    "slug": "N3_depression",
+    "name": "Depression",
+    "plus": [
+      "Often feel blue.",
+      "Dislike myself.",
+      "Am often down in the dumps.",
+      "Have a low opinion of myself.",
+      "Have frequent mood swings.",
+      "Feel desperate.",
+      "Feel that my life lacks direction."
+    ],
+    "minus": [
+      "Seldom feel blue.",
+      "Feel comfortable with myself.",
+      "Am very pleased with myself."
+    ]
+  },
+  "N4_self_consciousness": {
+    "code": "N4",
+    "ipip_name": "Self-Consciousness",
+    "slug": "N4_self_consciousness",
+    "name": "Self-Consciousness",
+    "plus": [
+      "Am easily intimidated.",
+      "Am afraid that I will do the wrong thing.",
+      "Find it difficult to approach others.",
+      "Am afraid to draw attention to myself.",
+      "Only feel comfortable with friends.",
+      "Stumble over my words."
+    ],
+    "minus": [
+      "Am not embarrassed easily.",
+      "Am comfortable in unfamiliar situations.",
+      "Am not bothered by difficult social situations.",
+      "Am able to stand up for myself."
+    ]
+  },
+  "N5_immoderation": {
+    "code": "N5",
+    "ipip_name": "Immoderation",
+    "slug": "N5_immoderation",
+    "name": "Immoderation",
+    "plus": [
+      "Often eat too much.",
+      "Don't know why I do some of the things I do.",
+      "Do things I later regret.",
+      "Go on binges.",
+      "Love to eat."
+    ],
+    "minus": [
+      "Rarely overindulge.",
+      "Easily resist temptations.",
+      "Am able to control my cravings.",
+      "Never spend more than I can afford.",
+      "Never splurge."
+    ]
+  },
+  "N6_vulnerability": {
+    "code": "N6",
+    "ipip_name": "Vulnerability",
+    "slug": "N6_vulnerability",
+    "name": "Vulnerability",
+    "plus": [
+      "Panic easily.",
+      "Become overwhelmed by events.",
+      "Feel that I'm unable to deal with things.",
+      "Can't make up my mind.",
+      "Get overwhelmed by emotions."
+    ],
+    "minus": [
+      "Remain calm under pressure.",
+      "Can handle complex problems.",
+      "Know how to cope.",
+      "Readily overcome setbacks.",
+      "Am calm even in tense situations."
+    ]
+  },
+  "E1_warmth": {
+    "code": "E1",
+    "ipip_name": "Friendliness",
+    "slug": "E1_warmth",
+    "name": "Warmth",
+    "plus": [
+      "Make friends easily.",
+      "Warm up quickly to others.",
+      "Feel comfortable around people.",
+      "Act comfortably with others.",
+      "Cheer people up."
+    ],
+    "minus": [
+      "Am hard to get to know.",
+      "Often feel uncomfortable around others.",
+      "Avoid contacts with others.",
+      "Am not really interested in others.",
+      "Keep others at a distance."
+    ]
+  },
+  "E2_gregariousness": {
+    "code": "E2",
+    "ipip_name": "Gregariousness",
+    "slug": "E2_gregariousness",
+    "name": "Gregariousness",
+    "plus": [
+      "Love large parties.",
+      "Talk to a lot of different people at parties.",
+      "Enjoy being part of a group.",
+      "Involve others in what I am doing.",
+      "Love surprise parties."
+    ],
+    "minus": [
+      "Prefer to be alone.",
+      "Want to be left alone.",
+      "Don't like crowded events.",
+      "Avoid crowds.",
+      "Seek quiet."
+    ]
+  },
+  "E3_assertiveness": {
+    "code": "E3",
+    "ipip_name": "Assertiveness",
+    "slug": "E3_assertiveness",
+    "name": "Assertiveness",
+    "plus": [
+      "Take charge.",
+      "Try to lead others.",
+      "Can talk others into doing things.",
+      "Seek to influence others.",
+      "Take control of things."
+    ],
+    "minus": [
+      "Wait for others to lead the way.",
+      "Keep in the background.",
+      "Have little to say.",
+      "Don't like to draw attention to myself.",
+      "Hold back my opinions."
+    ]
+  },
+  "E4_activity_level": {
+    "code": "E4",
+    "ipip_name": "Activity Level",
+    "slug": "E4_activity_level",
+    "name": "Activity Level",
+    "plus": [
+      "Am always busy.",
+      "Am always on the go.",
+      "Do a lot in my spare time.",
+      "Can manage many things at the same time.",
+      "React quickly."
+    ],
+    "minus": [
+      "Like to take it easy.",
+      "Like to take my time.",
+      "Like a leisurely lifestyle.",
+      "Let things proceed at their own pace.",
+      "React slowly."
+    ]
+  },
+  "E5_excitement_seeking": {
+    "code": "E5",
+    "ipip_name": "Excitement-Seeking",
+    "slug": "E5_excitement_seeking",
+    "name": "Excitement-Seeking",
+    "plus": [
+      "Love excitement.",
+      "Seek adventure.",
+      "Love action.",
+      "Enjoy being part of a loud crowd.",
+      "Enjoy being reckless.",
+      "Act wild and crazy.",
+      "Am willing to try anything once.",
+      "Seek danger."
+    ],
+    "minus": [
+      "Would never go hang gliding or bungee jumping.",
+      "Dislike loud music."
+    ]
+  },
+  "E6_cheerfulness": {
+    "code": "E6",
+    "ipip_name": "Cheerfulness",
+    "slug": "E6_cheerfulness",
+    "name": "Cheerfulness",
+    "plus": [
+      "Radiate joy.",
+      "Have a lot of fun.",
+      "Express childlike joy.",
+      "Laugh my way through life.",
+      "Love life.",
+      "Look at the bright side of life.",
+      "Laugh aloud.",
+      "Amuse my friends."
+    ],
+    "minus": [
+      "Am not easily amused.",
+      "Seldom joke around."
+    ]
+  },
+  "O1_imagination": {
+    "code": "O1",
+    "ipip_name": "Imagination",
+    "slug": "O1_imagination",
+    "name": "Imagination",
+    "plus": [
+      "Have a vivid imagination.",
+      "Enjoy wild flights of fantasy.",
+      "Love to daydream.",
+      "Like to get lost in thought.",
+      "Indulge in my fantasies.",
+      "Spend time reflecting on things."
+    ],
+    "minus": [
+      "Seldom daydream.",
+      "Do not have a good imagination.",
+      "Seldom get lost in thought.",
+      "Have difficulty imagining things."
+    ]
+  },
+  "O2_artistic": {
+    "code": "O2",
+    "ipip_name": "Artistic Interests",
+    "slug": "O2_artistic",
+    "name": "Artistic Interests",
+    "plus": [
+      "Believe in the importance of art.",
+      "Like music.",
+      "See beauty in things that others might not notice.",
+      "Love flowers.",
+      "Enjoy the beauty of nature."
+    ],
+    "minus": [
+      "Do not like art.",
+      "Do not like poetry.",
+      "Do not enjoy going to art museums.",
+      "Do not like concerts.",
+      "Do not enjoy watching dance performances."
+    ]
+  },
+  "O3_emotionality": {
+    "code": "O3",
+    "ipip_name": "Emotionality",
+    "slug": "O3_emotionality",
+    "name": "Emotionality",
+    "plus": [
+      "Experience my emotions intensely.",
+      "Feel others' emotions.",
+      "Am passionate about causes.",
+      "Enjoy examining myself and my life.",
+      "Try to understand myself."
+    ],
+    "minus": [
+      "Seldom get emotional.",
+      "Am not easily affected by my emotions.",
+      "Rarely notice my emotional reactions.",
+      "Experience very few emotional highs and lows.",
+      "Don't understand people who get emotional."
+    ]
+  },
+  "O4_adventurousness": {
+    "code": "O4",
+    "ipip_name": "Adventurousness",
+    "slug": "O4_adventurousness",
+    "name": "Adventurousness",
+    "plus": [
+      "Prefer variety to routine.",
+      "Like to visit new places.",
+      "Am interested in many things.",
+      "Like to begin new things."
+    ],
+    "minus": [
+      "Prefer to stick with things that I know.",
+      "Dislike changes.",
+      "Don't like the idea of change.",
+      "Am a creature of habit.",
+      "Dislike new foods.",
+      "Am attached to conventional ways."
+    ]
+  },
+  "O5_intellect": {
+    "code": "O5",
+    "ipip_name": "Intellect",
+    "slug": "O5_intellect",
+    "name": "Intellect",
+    "plus": [
+      "Like to solve complex problems.",
+      "Love to read challenging material.",
+      "Have a rich vocabulary.",
+      "Can handle a lot of information.",
+      "Enjoy thinking about things."
+    ],
+    "minus": [
+      "Am not interested in abstract ideas.",
+      "Avoid philosophical discussions.",
+      "Have difficulty understanding abstract ideas.",
+      "Am not interested in theoretical discussions.",
+      "Avoid difficult reading material."
+    ]
+  },
+  "O6_liberalism": {
+    "code": "O6",
+    "ipip_name": "Liberalism",
+    "slug": "O6_liberalism",
+    "name": "Liberalism",
+    "plus": [
+      "Tend to vote for liberal political candidates.",
+      "Believe that there is no absolute right and wrong.",
+      "Believe that criminals should receive help rather than punishment."
+    ],
+    "minus": [
+      "Believe in one true religion.",
+      "Tend to vote for conservative political candidates.",
+      "Believe that too much tax money goes to support artists.",
+      "Believe laws should be strictly enforced.",
+      "Believe that we coddle criminals too much.",
+      "Believe that we should be tough on crime.",
+      "Like to stand during the national anthem."
+    ]
+  },
+  "A1_trust": {
+    "code": "A1",
+    "ipip_name": "Trust",
+    "slug": "A1_trust",
+    "name": "Trust",
+    "plus": [
+      "Trust others.",
+      "Believe that others have good intentions.",
+      "Trust what people say.",
+      "Believe that people are basically moral.",
+      "Believe in human goodness.",
+      "Think that all will be well."
+    ],
+    "minus": [
+      "Distrust people.",
+      "Suspect hidden motives in others.",
+      "Am wary of others.",
+      "Believe that people are essentially evil."
+    ]
+  },
+  "A2_straightforwardness": {
+    "code": "A2",
+    "ipip_name": "Morality",
+    "slug": "A2_straightforwardness",
+    "name": "Straightforwardness",
+    "plus": [
+      "Would never cheat on my taxes.",
+      "Stick to the rules."
+    ],
+    "minus": [
+      "Use flattery to get ahead.",
+      "Use others for my own ends.",
+      "Know how to get around the rules.",
+      "Cheat to get ahead.",
+      "Put people under pressure.",
+      "Pretend to be concerned for others.",
+      "Take advantage of others.",
+      "Obstruct others' plans."
+    ]
+  },
+  "A3_altruism": {
+    "code": "A3",
+    "ipip_name": "Altruism",
+    "slug": "A3_altruism",
+    "name": "Altruism",
+    "plus": [
+      "Make people feel welcome.",
+      "Anticipate the needs of others.",
+      "Love to help others.",
+      "Am concerned about others.",
+      "Have a good word for everyone."
+    ],
+    "minus": [
+      "Look down on others.",
+      "Am indifferent to the feelings of others.",
+      "Make people feel uncomfortable.",
+      "Turn my back on others.",
+      "Take no time for others."
+    ]
+  },
+  "A4_compliance": {
+    "code": "A4",
+    "ipip_name": "Cooperation",
+    "slug": "A4_compliance",
+    "name": "Compliance",
+    "plus": [
+      "Am easy to satisfy.",
+      "Can't stand confrontations.",
+      "Hate to seem pushy."
+    ],
+    "minus": [
+      "Have a sharp tongue.",
+      "Contradict others.",
+      "Love a good fight.",
+      "Yell at people.",
+      "Insult people.",
+      "Get back at others.",
+      "Hold a grudge."
+    ]
+  },
+  "A5_modesty": {
+    "code": "A5",
+    "ipip_name": "Modesty",
+    "slug": "A5_modesty",
+    "name": "Modesty",
+    "plus": [
+      "Dislike being the center of attention.",
+      "Dislike talking about myself.",
+      "Consider myself an average person.",
+      "Seldom toot my own horn."
+    ],
+    "minus": [
+      "Believe that I am better than others.",
+      "Think highly of myself.",
+      "Have a high opinion of myself.",
+      "Know the answers to many questions.",
+      "Boast about my virtues.",
+      "Make myself the center of attention."
+    ]
+  },
+  "A6_sympathy": {
+    "code": "A6",
+    "ipip_name": "Sympathy",
+    "slug": "A6_sympathy",
+    "name": "Sympathy",
+    "plus": [
+      "Sympathize with the homeless.",
+      "Feel sympathy for those who are worse off than myself.",
+      "Value cooperation over competition.",
+      "Suffer from others' sorrows."
+    ],
+    "minus": [
+      "Am not interested in other people's problems.",
+      "Tend to dislike soft-hearted people.",
+      "Believe in an eye for an eye.",
+      "Try not to think about the needy.",
+      "Believe people should fend for themselves.",
+      "Can't stand weak people."
+    ]
+  },
+  "C1_self_efficacy": {
+    "code": "C1",
+    "ipip_name": "Self-Efficacy",
+    "slug": "C1_self_efficacy",
+    "name": "Self-Efficacy",
+    "plus": [
+      "Complete tasks successfully.",
+      "Excel in what I do.",
+      "Handle tasks smoothly.",
+      "Am sure of my ground.",
+      "Come up with good solutions.",
+      "Know how to get things done."
+    ],
+    "minus": [
+      "Misjudge situations.",
+      "Don't understand things.",
+      "Have little to contribute.",
+      "Don't see the consequences of things."
+    ]
+  },
+  "C2_orderliness": {
+    "code": "C2",
+    "ipip_name": "Orderliness",
+    "slug": "C2_orderliness",
+    "name": "Orderliness",
+    "plus": [
+      "Like order.",
+      "Like to tidy up.",
+      "Love order and regularity.",
+      "Do things according to a plan."
+    ],
+    "minus": [
+      "Often forget to put things back in their proper place.",
+      "Leave a mess in my room.",
+      "Leave my belongings around.",
+      "Am not bothered by messy people.",
+      "Am not bothered by disorder."
+    ]
+  },
+  "C3_dutifulness": {
+    "code": "C3",
+    "ipip_name": "Dutifulness",
+    "slug": "C3_dutifulness",
+    "name": "Dutifulness",
+    "plus": [
+      "Try to follow the rules.",
+      "Keep my promises.",
+      "Pay my bills on time.",
+      "Tell the truth.",
+      "Listen to my conscience."
+    ],
+    "minus": [
+      "Break rules.",
+      "Break my promises.",
+      "Get others to do my duties.",
+      "Do the opposite of what is asked.",
+      "Misrepresent the facts."
+    ]
+  },
+  "C4_achievement_striving": {
+    "code": "C4",
+    "ipip_name": "Achievement-Striving",
+    "slug": "C4_achievement_striving",
+    "name": "Achievement-Striving",
+    "plus": [
+      "Go straight for the goal.",
+      "Work hard.",
+      "Turn plans into actions.",
+      "Plunge into tasks with all my heart.",
+      "Do more than what's expected of me.",
+      "Set high standards for myself and others.",
+      "Demand quality."
+    ],
+    "minus": [
+      "Am not highly motivated to succeed.",
+      "Do just enough work to get by.",
+      "Put little time and effort into my work."
+    ]
+  },
+  "C5_self_discipline": {
+    "code": "C5",
+    "ipip_name": "Self-Discipline",
+    "slug": "C5_self_discipline",
+    "name": "Self-Discipline",
+    "plus": [
+      "Get chores done right away.",
+      "Am always prepared.",
+      "Start tasks right away.",
+      "Get to work at once.",
+      "Carry out my plans."
+    ],
+    "minus": [
+      "Find it difficult to get down to work.",
+      "Waste my time.",
+      "Need a push to get started.",
+      "Have difficulty starting tasks.",
+      "Postpone decisions."
+    ]
+  },
+  "C6_cautiousness": {
+    "code": "C6",
+    "ipip_name": "Cautiousness",
+    "slug": "C6_cautiousness",
+    "name": "Cautiousness",
+    "plus": [
+      "Avoid mistakes.",
+      "Choose my words with care.",
+      "Stick to my chosen path."
+    ],
+    "minus": [
+      "Jump into things without thinking.",
+      "Make rash decisions.",
+      "Like to act on a whim.",
+      "Rush into things.",
+      "Do crazy things.",
+      "Act without thinking.",
+      "Often make last-minute plans."
+    ]
+  }
+}

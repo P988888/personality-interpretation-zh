@@ -1,0 +1,24 @@
+=== 清理前 ===
+/data/miniconda/envs/torch/lib/python3.12/site-packages/transformers-4.49.0.dist-info
+/data/miniconda/envs/torch/lib/python3.12/site-packages/transformers-4.56.2.dist-info
+=== 清理后 ===
+/data/miniconda/envs/torch/lib/python3.12/site-packages/transformers-4.56.2.dist-info
+
+=== pip 现在看到的版本 ===
+Version: 4.56.2
+
+=== 强制重装以修正元数据 ===
+      Successfully uninstalled transformers-4.56.2
+Successfully installed transformers-4.56.2
+WARNING: Running pip as the 'root' user can result in broken permissions and conflicting behaviour with the system package manager, possibly rendering your system unusable. It is recommended to use a virtual environment instead: https://pip.pypa.io/warnings/venv. Use the --root-user-action option if you know what you are doing and want to suppress this warning.
+
+=== 最终验证 ===
+Version: 4.56.2
+/data/miniconda/envs/torch/lib/python3.12/site-packages/jieba/_compat.py:18: UserWarning: pkg_resources is deprecated as an API. See https://setuptools.pypa.io/en/latest/pkg_resources.html. The pkg_resources package is slated for removal as early as 2025-11-30. Refrain from using this package or pin to Setuptools<81.
+  import pkg_resources
+import 版本: 4.56.2
+video_utils OK
+llamafactory.run_exp 导入成功 ✓
+
+=== 依赖检查 ===
+No broken requirements found.
