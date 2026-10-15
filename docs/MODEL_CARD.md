@@ -11,7 +11,7 @@ tags:
   - ipip
   - psychology
 datasets:
-  - <你的HF用户名>/personality-interpretation-zh   # 发布后填这里
+  - pengjianghua/personality-interpretation-zh   # Hugging Face 用户名不同的话改这里
 ---
 
 # personality —— 人格测评解读模型（Qwen2.5-7B + LoRA）
