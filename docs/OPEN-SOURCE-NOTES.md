@@ -94,31 +94,35 @@ Apache-2.0 允许商用、允许分发衍生模型。**你需要做的**：
 所有开源模型都是这么做的 —— Qwen 的 GitHub 仓库里也没有 15GB 权重，
 **权重都放在 Hugging Face**。
 
-### 正确的拆分
+### 实际发布情况
 
-| 放哪里 | 内容 | 体积 | 说明 |
+| 放哪里 | 内容 | 体积 | 状态 |
 |---|---|---|---|
-| **Hugging Face 模型仓库** | **LoRA adapter** | **323 MB** | ← **这才是"开源模型"本身，必须发** |
-| Hugging Face 数据集仓库 | `data/curated/` | 19 MB | 可选，便于别人复现训练 |
-| Hugging Face（可选） | GGUF Q4_K_M | ~4.5 GB | 给「下载就能跑」的人 |
-| GitHub | 代码、规格、文档、训练日志 | ~25 MB | **只放链接指向 HF** |
+| **HF 模型仓库** | **LoRA adapter** | **323 MB** | ✅ [6guwew/personality-interpretation-zh](https://huggingface.co/6guwew/personality-interpretation-zh) |
+| **HF 模型仓库** | **MLX 4-bit** | **4.0 GB** | ✅ [6guwew/personality-interpretation-zh-mlx-4bit](https://huggingface.co/6guwew/personality-interpretation-zh-mlx-4bit) |
+| GitHub | 代码、规格、文档、训练日志 | ~22 MB | ✅ [P988888/personality-interpretation-zh](https://github.com/P988888/personality-interpretation-zh) |
 
-GitHub 的 README 里写这一行就够了，别人一条命令就能用上模型：
+adapter 是"开源模型"本身，必须发。MLX 4-bit 是给「下载就能跑」的人准备的——
+Apple Silicon 上不用自己合并再量化。
+
+GitHub 的 README 里写这一行就够了，别人一条命令就能用上适配器：
 
 ```python
-model = PeftModel.from_pretrained(base_qwen, "你的用户名/personality-lora-v1")
+model = PeftModel.from_pretrained(base_qwen, "6guwew/personality-interpretation-zh")
 ```
 
-模型卡直接用 `docs/MODEL_CARD.md`（已写好，可直接发到 HF）。
+模型卡：适配器用 `docs/MODEL_CARD.md`，MLX 版用 `docs/MLX_CARD.md`，两份都已发到 HF。
 
-### 为什么那 15GB 合并权重不必发（即使发到 HF 也不划算）
+### 为什么那 14GB 合并权重不必发（即使发到 HF 也不划算）
 
 它是 `Qwen2.5-7B-Instruct 的公开权重 + 你的 323MB adapter`，
 别人拿 `training/configs/merge_qwen7b.yaml` **五分钟就能自己合出来**。
-发 15GB 换来的只是"省一步"，代价是别人多等 40 分钟下载、你多付存储。
+发 14GB 换来的只是"省一步"，代价是别人多等几十分钟下载、你多付存储。
 
-真要给开箱即用的体验，发 **GGUF Q4_K_M（约 4.5GB）**：体积只有三分之一，
-而且量化后普通笔记本就能跑 —— 这才是"分享给朋友"真正需要的形式。
+**为什么是 MLX 而不是 GGUF**：原计划发 GGUF Q4_K_M，但那条路在当时的网络下走不通——
+需要 llama.cpp 的转换脚本加编译好的 `llama-quantize`，而 `github.com` 直连不通
+（后来查明是本机代理没生效导致的，但这个决策已经落地）。MLX 是 Apple Silicon 原生框架，
+`pip install mlx-lm` 一条命令，4-bit 量化后 4.0GB，实测质量与 fp16 版本一致。
 
 ---
 

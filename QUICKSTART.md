@@ -15,6 +15,10 @@ pip install mlx-lm
 python3 training/serve_mlx.py --port 8010
 ```
 
+权重不在 Git 仓库里，脚本会自动从 Hugging Face 拉取
+[`6guwew/personality-interpretation-zh-mlx-4bit`](https://huggingface.co/6guwew/personality-interpretation-zh-mlx-4bit)（约 4GB，只需一次）。
+如果你手上已经有 `models/personality-mlx-4bit/`，它会直接用本地的，不联网。
+
 浏览器打开 **http://127.0.0.1:8010** —— 输入框里预填了一份完整测评结果，
 点「生成解读」就行。约 100 秒出一份 1500 字左右的解读。
 
@@ -61,7 +65,8 @@ LICENSE              Apache-2.0
 NOTICE               基座模型归属与修改声明（Apache-2.0 要求）
 docs/
   OPEN-SOURCE-NOTES.md  开源义务：许可证、商标、AI 生成数据的版权判断
-  MODEL_CARD.md         模型卡（可直接发 Hugging Face）
+  MODEL_CARD.md         适配器模型卡（已发布到 Hugging Face）
+  MLX_CARD.md           MLX 4-bit 量化版模型卡（已发布）
   API.md                两个推理服务的说明与实测性能
   training-guide.md     完整训练流程
   review-checklist.md   人工审阅清单
@@ -82,27 +87,34 @@ training/
   serve_model.py      通用推理服务（transformers）
   run_train.sh        训练启动脚本
   eval_ab.py          微调效果 A/B 评估
-models/               模型权重（20G，不进 Git，见下）
+models/               模型权重（20G，不进 Git —— 见第四节，已发布到 Hugging Face）
 ```
 
 ## 四、模型在哪
 
-`models/` 目录（如果打包发送方带了的话）：
+**已在 Hugging Face 发布**，不用等别人打包给你：
+
+| 模型 | 体积 | 用途 |
+|---|---|---|
+| [personality-interpretation-zh](https://huggingface.co/6guwew/personality-interpretation-zh) | 323 MB | LoRA 适配器，开源发布的主体 |
+| [personality-interpretation-zh-mlx-4bit](https://huggingface.co/6guwew/personality-interpretation-zh-mlx-4bit) | 4.0 GB | **Apple Silicon 本地跑，推荐** |
+
+如果发送方连权重一起打包了，`models/` 目录里是这三份：
 
 | 目录 | 体积 | 用途 |
 |---|---|---|
-| `personality-mlx-4bit/` | 4.0 G | **Apple Silicon 本地跑，推荐** |
-| `personality-lora-v1/` | 323 M | LoRA 适配器，开源发布的主体 |
-| `personality-fp16-merged/` | 14 G | 合并后的完整 fp16 权重 |
+| `personality-mlx-4bit/` | 4.0 G | 同上面的 MLX 版 |
+| `personality-lora-v1/` | 323 M | 同上面的适配器 |
+| `personality-fp16-merged/` | 14 G | 合并后的完整 fp16 权重（**未发布**，网上已有基座，传上去只是重复） |
 
-**没有 `models/` 也能用。** 适配器只有 323MB，配合基座 `Qwen/Qwen2.5-7B-Instruct`
-就能复现全部效果：
+**只有适配器也能复现全部效果。** 323MB 的适配器配上基座 `Qwen/Qwen2.5-7B-Instruct`
+即可合并出完整模型：
 
 ```bash
 python3 -m llamafactory-cli export training/configs/merge_qwen7b.yaml
 ```
 
-`models/` 没有进 Git 是因为 GitHub 单文件限 100MB，权重不在那里发布
+`models/` 没有进 Git 是因为 GitHub 单文件限 100MB，所以权重走 Hugging Face
 （原因和处理方式见 `docs/OPEN-SOURCE-NOTES.md`）。
 
 ---

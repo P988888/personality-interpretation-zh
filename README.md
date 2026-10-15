@@ -5,6 +5,15 @@
 
 ---
 
+## 模型已发布
+
+| 模型 | 体积 | 用途 |
+|---|---|---|
+| [6guwew/personality-interpretation-zh](https://huggingface.co/6guwew/personality-interpretation-zh) | 323 MB | LoRA 适配器，配 Qwen2.5-7B-Instruct 基座使用 |
+| [6guwew/personality-interpretation-zh-mlx-4bit](https://huggingface.co/6guwew/personality-interpretation-zh-mlx-4bit) | 4.0 GB | MLX 4-bit，Apple Silicon 直接跑，无需合并与量化 |
+
+---
+
 ## 这个项目能做什么
 
 1. **做测评**：120 道题，答完自动计分，得到 5 个维度 + 30 个 facet 的分数
@@ -43,8 +52,12 @@ python3 scripts/interpret.py data/results/你的结果.json --mode api --model g
 模型已量化成 **MLX 4-bit（4.0 GB）**，Apple Silicon 原生跑，不需要联网：
 
 ```bash
+pip install mlx-lm
+# 权重不在 Git 仓库里，首次运行从 Hugging Face 拉取（约 4GB）
 python3 training/serve_mlx.py --port 8010
 ```
+
+如果你已经有一份本地权重，放在 `models/personality-mlx-4bit/` 即可，脚本会优先用本地的。
 
 然后浏览器打开 http://127.0.0.1:8010 ，或在任意客户端里配：
 Base URL `http://127.0.0.1:8010/v1`，API Key 随便填，模型名 `personality`。
@@ -169,10 +182,10 @@ SFT 的目的是把规则内化进权重。训练时把规格放在 prompt 里�
 - token 中位 1814、最长 2246，`cutoff_len=4096` 余量充足
 - 被拒样本留在 `data/rejected/` 供分析失败模式
 
-**下一步**：模型已训完并验证，可以直接发布。发布前先读
-[`docs/OPEN-SOURCE-NOTES.md`](docs/OPEN-SOURCE-NOTES.md) —— 里面列了 Apache-2.0 的义务、
-MBTI 商标声明、以及权重为什么不能进 Git 仓库。模型卡在 `docs/MODEL_CARD.md`，
-可直接发到 Hugging Face。
+**模型已发布**。LoRA 适配器与 MLX 4-bit 量化版都在 Hugging Face（见文首表格）。
+权重不进 Git 仓库的原因见 [`docs/OPEN-SOURCE-NOTES.md`](docs/OPEN-SOURCE-NOTES.md)——
+里面同时列了 Apache-2.0 的再分发义务与 MBTI 商标声明。两张模型卡分别在
+`docs/MODEL_CARD.md` 与 `docs/MLX_CARD.md`。
 
 ---
 

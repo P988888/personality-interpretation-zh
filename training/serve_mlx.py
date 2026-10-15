@@ -328,14 +328,29 @@ go.onclick=async()=>{
 </script></body></html>"""
 
 
+LOCAL_MLX = ROOT / "models/personality-mlx-4bit"
+HF_MLX = "6guwew/personality-interpretation-zh-mlx-4bit"
+
+
+def resolve_model(cli_value):
+    """本地有就用手上的，没有就从 Hugging Face 拉。"""
+    if cli_value:
+        return cli_value
+    if LOCAL_MLX.is_dir():
+        return str(LOCAL_MLX)
+    print(f"[{time.strftime('%T')}] 本地没有 {LOCAL_MLX}，从 Hugging Face 拉取 {HF_MLX} ...", flush=True)
+    return HF_MLX
+
+
 def main():
     ap = argparse.ArgumentParser()
-    ap.add_argument("--model", default=str(ROOT / "models/personality-mlx-4bit"))
+    ap.add_argument("--model", default=None, help=f"本地目录或 HF 仓库 id（默认：{LOCAL_MLX}，不存在则拉 {HF_MLX}）")
     ap.add_argument("--host", default="127.0.0.1")
     ap.add_argument("--port", type=int, default=8000)
     a = ap.parse_args()
 
     load_systems()
+    a.model = resolve_model(a.model)
     print(f"[{time.strftime('%T')}] 载入 {a.model} ...", flush=True)
     global _model, _tok
     _model, _tok = load(a.model)

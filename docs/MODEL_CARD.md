@@ -9,9 +9,10 @@ tags:
   - personality
   - big-five
   - ipip
+  - mbti
   - psychology
-datasets:
-  - pengjianghua/personality-interpretation-zh   # Hugging Face 用户名不同的话改这里
+  - text-generation
+pipeline_tag: text-generation
 ---
 
 # personality —— 人格测评解读模型（Qwen2.5-7B + LoRA）
@@ -99,8 +100,8 @@ import torch, json
 
 base = AutoModelForCausalLM.from_pretrained("Qwen/Qwen2.5-7B-Instruct",
                                             dtype=torch.bfloat16, device_map="cuda")
-model = PeftModel.from_pretrained(base, "<你的用户名>/personality-lora-v1")
-tok = AutoTokenizer.from_pretrained("<你的用户名>/personality-lora-v1")
+model = PeftModel.from_pretrained(base, "6guwew/personality-interpretation-zh")
+tok = AutoTokenizer.from_pretrained("6guwew/personality-interpretation-zh")
 
 profile = {
     "instrument": "big-five", "version": "IPIP-NEO-120",
